@@ -80,6 +80,21 @@ class Ui_Dialog(object):
         self.comboBox_3.addItem("")
         self.comboBox_3.addItem("")
         self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
         self.horizontalLayout_2.addWidget(self.comboBox_3)
         self.horizontalLayout_2.setStretch(1, 1)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
@@ -162,6 +177,21 @@ class Ui_Dialog(object):
         self.comboBox_3.setItemText(2, _translate("Dialog", "3x"))
         self.comboBox_3.setItemText(3, _translate("Dialog", "4x"))
         self.comboBox_3.setItemText(4, _translate("Dialog", "5x"))
+        self.comboBox_3.setItemText(5, _translate("Dialog", "6x"))
+        self.comboBox_3.setItemText(6, _translate("Dialog", "7x"))
+        self.comboBox_3.setItemText(7, _translate("Dialog", "8x"))
+        self.comboBox_3.setItemText(8, _translate("Dialog", "9x"))
+        self.comboBox_3.setItemText(9, _translate("Dialog", "10x"))
+        self.comboBox_3.setItemText(10, _translate("Dialog", "11x"))
+        self.comboBox_3.setItemText(11, _translate("Dialog", "12x"))
+        self.comboBox_3.setItemText(12, _translate("Dialog", "13x"))
+        self.comboBox_3.setItemText(13, _translate("Dialog", "14x"))
+        self.comboBox_3.setItemText(14, _translate("Dialog", "15x"))
+        self.comboBox_3.setItemText(15, _translate("Dialog", "16x"))
+        self.comboBox_3.setItemText(16, _translate("Dialog", "17x"))
+        self.comboBox_3.setItemText(17, _translate("Dialog", "18x"))
+        self.comboBox_3.setItemText(18, _translate("Dialog", "19x"))
+        self.comboBox_3.setItemText(19, _translate("Dialog", "20x"))
         self.label_3.setText(_translate("Dialog", "经度："))
         self.label_4.setText(_translate("Dialog", "纬度："))
         self.pushButton.setText(_translate("Dialog", "计算"))
@@ -272,6 +302,16 @@ class WorkThread(QThread):
             self.rh2_interpolate.append(float(rh2_Rbf(float(self.input_lon), float(self.input_lat))))
             # 通过自定义信号把待显示的字符串传递给槽函数
             self.trigger.emit(float((i+1)/(self.all_time_index+1)*100))
+        #添加最近点网格的参数
+        self.nearest_point_t2=[]
+        self.nearest_point_rh2=[]
+        self.nearest_point_u10=[]
+        self.nearest_point_v10=[]
+        for i in range(self.all_time_index):
+            self.nearest_point_t2.append(self.ncfile.variables['T2'][i, self.input_line_index, self.input_point_index]-273.15)
+            self.nearest_point_rh2.append(to_np(getvar(self.ncfile, 'rh2',timeidx=i))[self.input_line_index, self.input_point_index])
+            self.nearest_point_u10.append(self.ncfile.variables['U10'][i, self.input_line_index, self.input_point_index])
+            self.nearest_point_v10.append(self.ncfile.variables['V10'][i, self.input_line_index, self.input_point_index])
         #写入xlsx
         self.write_to_xlsx()
         #放出进度给processbar
@@ -304,6 +344,10 @@ class WorkThread(QThread):
         worksheet.cell(1,5,'10米高v(m/s)')
         worksheet.cell(1,6,'10米高风速(m/s)')
         worksheet.cell(1,7,'10米高风向(°)')
+        worksheet.cell(1,8,'最近网格点2m高温度(℃)')
+        worksheet.cell(1,9,'最近网格点2m高相对湿度(%)')
+        worksheet.cell(1,10,'最近网格点10米高u(m/s)')
+        worksheet.cell(1,11,'最近网格点10米高v(m/s)')
         windspeed_interpolate = np.sqrt(
             np.power(self.u10_interpolate, 2) + np.power(self.v10_interpolate, 2))
         windspeed_interpolat_vector = []
@@ -332,6 +376,10 @@ class WorkThread(QThread):
             worksheet.cell(i + 2, 5, self.v10_interpolate[i])
             worksheet.cell(i + 2, 6, windspeed_interpolate[i])
             worksheet.cell(i + 2, 7, windspeed_interpolat_vector[i])
+            worksheet.cell(i + 2, 8, self.nearest_point_t2[i])
+            worksheet.cell(i + 2, 9, self.nearest_point_rh2[i])
+            worksheet.cell(i + 2, 10, self.nearest_point_u10[i])
+            worksheet.cell(i + 2, 11, self.nearest_point_v10[i])
         ####################################################################################
         #写入插值信息
         worksheet2 = workbook.create_sheet()

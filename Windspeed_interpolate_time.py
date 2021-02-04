@@ -80,6 +80,21 @@ class Ui_Dialog(object):
         self.comboBox_3.addItem("")
         self.comboBox_3.addItem("")
         self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
         self.horizontalLayout_2.addWidget(self.comboBox_3)
         self.horizontalLayout_2.setStretch(1, 1)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
@@ -162,6 +177,21 @@ class Ui_Dialog(object):
         self.comboBox_3.setItemText(2, _translate("Dialog", "3x"))
         self.comboBox_3.setItemText(3, _translate("Dialog", "4x"))
         self.comboBox_3.setItemText(4, _translate("Dialog", "5x"))
+        self.comboBox_3.setItemText(5, _translate("Dialog", "6x"))
+        self.comboBox_3.setItemText(6, _translate("Dialog", "7x"))
+        self.comboBox_3.setItemText(7, _translate("Dialog", "8x"))
+        self.comboBox_3.setItemText(8, _translate("Dialog", "9x"))
+        self.comboBox_3.setItemText(9, _translate("Dialog", "10x"))
+        self.comboBox_3.setItemText(10, _translate("Dialog", "11x"))
+        self.comboBox_3.setItemText(11, _translate("Dialog", "12x"))
+        self.comboBox_3.setItemText(12, _translate("Dialog", "13x"))
+        self.comboBox_3.setItemText(13, _translate("Dialog", "14x"))
+        self.comboBox_3.setItemText(14, _translate("Dialog", "15x"))
+        self.comboBox_3.setItemText(15, _translate("Dialog", "16x"))
+        self.comboBox_3.setItemText(16, _translate("Dialog", "17x"))
+        self.comboBox_3.setItemText(17, _translate("Dialog", "18x"))
+        self.comboBox_3.setItemText(18, _translate("Dialog", "19x"))
+        self.comboBox_3.setItemText(19, _translate("Dialog", "20x"))
         self.label_3.setText(_translate("Dialog", "经度："))
         self.label_4.setText(_translate("Dialog", "纬度："))
         self.label_5.setText(_translate("Dialog", "高度："))
@@ -228,12 +258,13 @@ class WorkThread(QThread):
     def run(self):
         # 重写线程执行的run函数
         # 触发自定义信号
+
         self.lon=to_np(getvar(self.ncfile, 'lon'))
         self.lat=to_np(getvar(self.ncfile, 'lat'))
         self.times = getvar(self.ncfile, 'xtimes', timeidx=ALL_TIMES)
         if self.speedup_index==0:#表示没有进行加速计算
-            lon_x=self.lon
-            lat_x=self.lat
+            lon_x=to_np(getvar(self.ncfile, 'lon'))
+            lat_x=to_np(getvar(self.ncfile, 'lat'))
             line_start = 0
             line_end = int(self.lon.shape[0])
             point_start = 0
@@ -257,22 +288,34 @@ class WorkThread(QThread):
                 point_end=int(self.lon.shape[1])
             self.slice_num=[line_start,line_end,point_start,point_end]
             #对经纬度和风速进行切片
-            lon_x=self.lon[line_start:line_end,point_start:point_end]
-            lat_x=self.lat[line_start:line_end,point_start:point_end]
+            lon_x=to_np(getvar(self.ncfile, 'lon'))[line_start:line_end,point_start:point_end]
+            lat_x=to_np(getvar(self.ncfile, 'lat'))[line_start:line_end,point_start:point_end]
         self.windspeed_interpolate_ua=[]#用于储存插值点的ua风速信息
         self.windspeed_interpolate_va=[]#用于储存插值点的va风速信息
+        self.windspeed_interpolate_wa=[]#用于储存插值点的wa风速信息
         if self.height_num==self.all_height_index-1:
             print('yes')
         else:#进行逐个高度的插值
             for i in range(int(self.times.shape[0])):
                 ua_x=to_np(getvar(self.ncfile,'ua',i))[self.height_num,line_start:line_end,point_start:point_end]
                 va_x=to_np(getvar(self.ncfile,'va',i))[self.height_num,line_start:line_end,point_start:point_end]
+                wa_x=to_np(getvar(self.ncfile,'wa',i))[self.height_num,line_start:line_end,point_start:point_end]
                 ua_Rbf=Rbf(lon_x,lat_x,ua_x,function=self.function_type)
                 va_Rbf=Rbf(lon_x,lat_x,va_x,function=self.function_type)
+                wa_Rbf=Rbf(lon_x,lat_x,wa_x,function=self.function_type)
                 self.windspeed_interpolate_ua.append(float(ua_Rbf(float(self.input_lon),float(self.input_lat))))
                 self.windspeed_interpolate_va.append(float(va_Rbf(float(self.input_lon),float(self.input_lat))))
+                self.windspeed_interpolate_wa.append(float(wa_Rbf(float(self.input_lon),float(self.input_lat))))
                 # 通过自定义信号把待显示的字符串传递给槽函数
                 self.trigger.emit(float((i+1)/(self.times.shape[0]+1)*100))
+        #添加最近点网格的参数
+        self.nearest_point_ua=[]
+        self.nearest_point_va=[]
+        self.nearest_point_wa=[]
+        for i in range(int(self.times.shape[0])):
+            self.nearest_point_ua.append(to_np(getvar(self.ncfile,'ua',i))[self.height_num,self.input_line_index,self.input_point_index])
+            self.nearest_point_va.append(to_np(getvar(self.ncfile,'va',i))[self.height_num,self.input_line_index,self.input_point_index])
+            self.nearest_point_wa.append(to_np(getvar(self.ncfile,'wa',i))[self.height_num,self.input_line_index,self.input_point_index])
         #写入xlsx
         self.write_to_xlsx()
         #放出进度给processbar
@@ -299,10 +342,14 @@ class WorkThread(QThread):
         worksheet = workbook.create_sheet()
         worksheet.title = '风速插值'
         worksheet.cell(1,1,'高度(m)')
-        worksheet.cell(1,2,'风速(m/s)')
-        worksheet.cell(1,3,'风速(m/s)')
-        worksheet.cell(1,4,'风速(m/s)')
-        worksheet.cell(1,5,'风向(°))')
+        worksheet.cell(1,2,'风速u(m/s)')
+        worksheet.cell(1,3,'风速v(m/s)')
+        worksheet.cell(1,4,'风速w(m/s)')
+        worksheet.cell(1,5,'风速(m/s)')
+        worksheet.cell(1,6,'风向(°))')
+        worksheet.cell(1,7,'最近网格点的风速u(m/s)')
+        worksheet.cell(1,8,'最近网格点的风速v(m/s)')
+        worksheet.cell(1,9,'最近网格点的风速w(m/s)')
         windspeed_interpolate=np.sqrt(np.power(self.windspeed_interpolate_ua,2)+np.power(self.windspeed_interpolate_va,2))
         windspeed_interpolat_vector = []
         for i in range(len(windspeed_interpolate)):#由于tan只能生成-90~90°的角度，而风速角度是0~360，因此需要做处理。其中正北为0度，顺时针为正。
@@ -326,8 +373,12 @@ class WorkThread(QThread):
             worksheet.cell(i + 2, 1, timelist[i])
             worksheet.cell(i + 2, 2, self.windspeed_interpolate_ua[i])
             worksheet.cell(i + 2, 3, self.windspeed_interpolate_va[i])
-            worksheet.cell(i + 2, 4, windspeed_interpolate[i])
-            worksheet.cell(i + 2, 5, windspeed_interpolat_vector[i])
+            worksheet.cell(i + 2, 4, self.windspeed_interpolate_wa[i])
+            worksheet.cell(i + 2, 5, windspeed_interpolate[i])
+            worksheet.cell(i + 2, 6, windspeed_interpolat_vector[i])
+            worksheet.cell(i + 2, 7, self.nearest_point_ua[i])
+            worksheet.cell(i + 2, 8, self.nearest_point_va[i])
+            worksheet.cell(i + 2, 9, self.nearest_point_wa[i])
         ####################################################################################
         #写入插值信息
         worksheet2 = workbook.create_sheet()

@@ -147,6 +147,81 @@
          <string>5x</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>6x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>7x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>8x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>9x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>10x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>11x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>12x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>13x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>14x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>15x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>16x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>17x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>18x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>19x</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>20x</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
