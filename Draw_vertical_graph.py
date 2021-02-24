@@ -15,8 +15,6 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 import netCDF4 as nc
 import numpy as np
-import cartopy.crs as ccrs
-import cartopy.feature as cfeat
 import matplotlib.ticker as mticker
 from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 from wrf import getvar, to_np, ALL_TIMES
@@ -28,11 +26,10 @@ mpl.rcParams['font.family'] = 'sans-serif'
 mpl.rcParams['font.sans-serif'] = 'NSimSun'
 mpl.rcParams['axes.unicode_minus']=False
 
-
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1192, 899)
+        Dialog.resize(1274, 899)
         Dialog.setWindowFlag(QtCore.Qt.WindowMinMaxButtonsHint)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -71,10 +68,20 @@ class Ui_Dialog(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(-299, 0, 705, 1320))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 528, 1053))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.radioButton_6 = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
+        self.radioButton_6.setChecked(True)
+        self.radioButton_6.setObjectName("radioButton_6")
+        self.horizontalLayout_4.addWidget(self.radioButton_6)
+        self.radioButton_7 = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
+        self.radioButton_7.setObjectName("radioButton_7")
+        self.horizontalLayout_4.addWidget(self.radioButton_7)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_4)
         self.groupBox = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.groupBox.setAutoFillBackground(False)
         self.groupBox.setFlat(False)
@@ -85,45 +92,6 @@ class Ui_Dialog(object):
         self.gridLayout_4.setContentsMargins(-1, 5, -1, 5)
         self.gridLayout_4.setSpacing(2)
         self.gridLayout_4.setObjectName("gridLayout_4")
-        self.lineEdit_5 = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEdit_5.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_5.setObjectName("lineEdit_5")
-        self.gridLayout_4.addWidget(self.lineEdit_5, 0, 3, 1, 1)
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEdit_2.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.gridLayout_4.addWidget(self.lineEdit_2, 1, 1, 1, 1)
-        self.label_6 = QtWidgets.QLabel(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
-        self.label_6.setSizePolicy(sizePolicy)
-        self.label_6.setObjectName("label_6")
-        self.gridLayout_4.addWidget(self.label_6, 1, 0, 1, 1)
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEdit_3.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.gridLayout_4.addWidget(self.lineEdit_3, 2, 1, 1, 1)
-        self.lineEdit_4 = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEdit_4.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_4.setObjectName("lineEdit_4")
-        self.gridLayout_4.addWidget(self.lineEdit_4, 3, 1, 1, 1)
-        self.lineEdit_6 = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEdit_6.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_6.setObjectName("lineEdit_6")
-        self.gridLayout_4.addWidget(self.lineEdit_6, 1, 3, 1, 1)
-        self.label_5 = QtWidgets.QLabel(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
-        self.label_5.setSizePolicy(sizePolicy)
-        self.label_5.setObjectName("label_5")
-        self.gridLayout_4.addWidget(self.label_5, 0, 2, 1, 1)
-        self.label_38 = QtWidgets.QLabel(self.groupBox)
-        self.label_38.setObjectName("label_38")
-        self.gridLayout_4.addWidget(self.label_38, 4, 0, 1, 1)
         self.label_8 = QtWidgets.QLabel(self.groupBox)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -131,61 +99,10 @@ class Ui_Dialog(object):
         sizePolicy.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
         self.label_8.setSizePolicy(sizePolicy)
         self.label_8.setObjectName("label_8")
-        self.gridLayout_4.addWidget(self.label_8, 2, 0, 1, 1)
-        self.textEdit_2 = QtWidgets.QTextEdit(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.textEdit_2.sizePolicy().hasHeightForWidth())
-        self.textEdit_2.setSizePolicy(sizePolicy)
-        self.textEdit_2.setMaximumSize(QtCore.QSize(150, 30))
-        self.textEdit_2.setObjectName("textEdit_2")
-        self.gridLayout_4.addWidget(self.textEdit_2, 4, 1, 1, 1)
-        self.label_7 = QtWidgets.QLabel(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
-        self.label_7.setSizePolicy(sizePolicy)
-        self.label_7.setObjectName("label_7")
-        self.gridLayout_4.addWidget(self.label_7, 1, 2, 1, 1)
-        self.comboBox_15 = QtWidgets.QComboBox(self.groupBox)
-        self.comboBox_15.setObjectName("comboBox_15")
-        self.comboBox_15.addItem("")
-        self.comboBox_15.addItem("")
-        self.comboBox_15.addItem("")
-        self.comboBox_15.addItem("")
-        self.gridLayout_4.addWidget(self.comboBox_15, 5, 3, 1, 1)
-        self.label_9 = QtWidgets.QLabel(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_9.sizePolicy().hasHeightForWidth())
-        self.label_9.setSizePolicy(sizePolicy)
-        self.label_9.setObjectName("label_9")
-        self.gridLayout_4.addWidget(self.label_9, 2, 2, 1, 1)
-        self.label_10 = QtWidgets.QLabel(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
-        self.label_10.setSizePolicy(sizePolicy)
-        self.label_10.setObjectName("label_10")
-        self.gridLayout_4.addWidget(self.label_10, 3, 0, 1, 1)
-        self.label_4 = QtWidgets.QLabel(self.groupBox)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
-        self.label_4.setSizePolicy(sizePolicy)
-        self.label_4.setObjectName("label_4")
-        self.gridLayout_4.addWidget(self.label_4, 0, 0, 1, 1)
-        self.label_52 = QtWidgets.QLabel(self.groupBox)
-        self.label_52.setObjectName("label_52")
-        self.gridLayout_4.addWidget(self.label_52, 5, 0, 1, 1)
-        self.label_53 = QtWidgets.QLabel(self.groupBox)
-        self.label_53.setObjectName("label_53")
-        self.gridLayout_4.addWidget(self.label_53, 5, 2, 1, 1)
+        self.gridLayout_4.addWidget(self.label_8, 5, 0, 1, 1)
+        self.label_73 = QtWidgets.QLabel(self.groupBox)
+        self.label_73.setObjectName("label_73")
+        self.gridLayout_4.addWidget(self.label_73, 9, 2, 1, 1)
         self.comboBox_14 = QtWidgets.QComboBox(self.groupBox)
         self.comboBox_14.setObjectName("comboBox_14")
         self.comboBox_14.addItem("")
@@ -195,15 +112,118 @@ class Ui_Dialog(object):
         self.comboBox_14.addItem("")
         self.comboBox_14.addItem("")
         self.comboBox_14.addItem("")
-        self.gridLayout_4.addWidget(self.comboBox_14, 5, 1, 1, 1)
-        self.lineEdit_7 = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEdit_7.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_7.setObjectName("lineEdit_7")
-        self.gridLayout_4.addWidget(self.lineEdit_7, 2, 3, 1, 1)
+        self.gridLayout_4.addWidget(self.comboBox_14, 11, 1, 1, 1)
+        self.label_19 = QtWidgets.QLabel(self.groupBox)
+        self.label_19.setObjectName("label_19")
+        self.gridLayout_4.addWidget(self.label_19, 6, 2, 1, 1)
         self.lineEdit_8 = QtWidgets.QLineEdit(self.groupBox)
         self.lineEdit_8.setMaximumSize(QtCore.QSize(70, 16777215))
         self.lineEdit_8.setObjectName("lineEdit_8")
-        self.gridLayout_4.addWidget(self.lineEdit_8, 3, 3, 1, 1)
+        self.gridLayout_4.addWidget(self.lineEdit_8, 7, 3, 1, 1)
+        self.label_10 = QtWidgets.QLabel(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
+        self.label_10.setSizePolicy(sizePolicy)
+        self.label_10.setObjectName("label_10")
+        self.gridLayout_4.addWidget(self.label_10, 7, 0, 1, 1)
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit_3.setMaximumSize(QtCore.QSize(70, 16777215))
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.gridLayout_4.addWidget(self.lineEdit_3, 5, 1, 1, 1)
+        self.lineEdit_14 = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit_14.setMaximumSize(QtCore.QSize(70, 16777215))
+        self.lineEdit_14.setObjectName("lineEdit_14")
+        self.gridLayout_4.addWidget(self.lineEdit_14, 6, 3, 1, 1)
+        self.label_6 = QtWidgets.QLabel(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
+        self.label_6.setSizePolicy(sizePolicy)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout_4.addWidget(self.label_6, 4, 0, 1, 1)
+        self.lineEdit_6 = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit_6.setMaximumSize(QtCore.QSize(70, 16777215))
+        self.lineEdit_6.setObjectName("lineEdit_6")
+        self.gridLayout_4.addWidget(self.lineEdit_6, 4, 3, 1, 1)
+        self.lineEdit_4 = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit_4.setMaximumSize(QtCore.QSize(70, 16777215))
+        self.lineEdit_4.setObjectName("lineEdit_4")
+        self.gridLayout_4.addWidget(self.lineEdit_4, 7, 1, 1, 1)
+        self.label_7 = QtWidgets.QLabel(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
+        self.label_7.setSizePolicy(sizePolicy)
+        self.label_7.setObjectName("label_7")
+        self.gridLayout_4.addWidget(self.label_7, 4, 2, 1, 1)
+        self.label_51 = QtWidgets.QLabel(self.groupBox)
+        self.label_51.setObjectName("label_51")
+        self.gridLayout_4.addWidget(self.label_51, 12, 2, 1, 1)
+        self.lineEdit = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit.setMaximumSize(QtCore.QSize(70, 16777215))
+        self.lineEdit.setObjectName("lineEdit")
+        self.gridLayout_4.addWidget(self.lineEdit, 3, 1, 1, 1)
+        self.label_38 = QtWidgets.QLabel(self.groupBox)
+        self.label_38.setObjectName("label_38")
+        self.gridLayout_4.addWidget(self.label_38, 9, 0, 1, 1)
+        self.label_5 = QtWidgets.QLabel(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
+        self.label_5.setSizePolicy(sizePolicy)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout_4.addWidget(self.label_5, 3, 2, 1, 1)
+        self.comboBox_15 = QtWidgets.QComboBox(self.groupBox)
+        self.comboBox_15.setObjectName("comboBox_15")
+        self.comboBox_15.addItem("")
+        self.comboBox_15.addItem("")
+        self.comboBox_15.addItem("")
+        self.comboBox_15.addItem("")
+        self.gridLayout_4.addWidget(self.comboBox_15, 11, 3, 1, 1)
+        self.label_52 = QtWidgets.QLabel(self.groupBox)
+        self.label_52.setObjectName("label_52")
+        self.gridLayout_4.addWidget(self.label_52, 11, 0, 1, 1)
+        self.lineEdit_39 = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit_39.setMaximumSize(QtCore.QSize(70, 16777215))
+        self.lineEdit_39.setObjectName("lineEdit_39")
+        self.gridLayout_4.addWidget(self.lineEdit_39, 9, 3, 1, 1)
+        self.label_4 = QtWidgets.QLabel(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
+        self.label_4.setSizePolicy(sizePolicy)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout_4.addWidget(self.label_4, 3, 0, 1, 1)
+        self.textEdit_2 = QtWidgets.QTextEdit(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.textEdit_2.sizePolicy().hasHeightForWidth())
+        self.textEdit_2.setSizePolicy(sizePolicy)
+        self.textEdit_2.setMaximumSize(QtCore.QSize(150, 30))
+        self.textEdit_2.setObjectName("textEdit_2")
+        self.gridLayout_4.addWidget(self.textEdit_2, 9, 1, 1, 1)
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit_2.setMaximumSize(QtCore.QSize(70, 16777215))
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.gridLayout_4.addWidget(self.lineEdit_2, 4, 1, 1, 1)
+        self.lineEdit_7 = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit_7.setMaximumSize(QtCore.QSize(70, 16777215))
+        self.lineEdit_7.setObjectName("lineEdit_7")
+        self.gridLayout_4.addWidget(self.lineEdit_7, 6, 1, 1, 1)
+        self.label_53 = QtWidgets.QLabel(self.groupBox)
+        self.label_53.setObjectName("label_53")
+        self.gridLayout_4.addWidget(self.label_53, 11, 2, 1, 1)
+        self.lineEdit_5 = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit_5.setMaximumSize(QtCore.QSize(70, 16777215))
+        self.lineEdit_5.setObjectName("lineEdit_5")
+        self.gridLayout_4.addWidget(self.lineEdit_5, 3, 3, 1, 1)
         self.label_11 = QtWidgets.QLabel(self.groupBox)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -211,25 +231,28 @@ class Ui_Dialog(object):
         sizePolicy.setHeightForWidth(self.label_11.sizePolicy().hasHeightForWidth())
         self.label_11.setSizePolicy(sizePolicy)
         self.label_11.setObjectName("label_11")
-        self.gridLayout_4.addWidget(self.label_11, 3, 2, 1, 1)
-        self.lineEdit = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEdit.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit.setObjectName("lineEdit")
-        self.gridLayout_4.addWidget(self.lineEdit, 0, 1, 1, 1)
-        self.label_51 = QtWidgets.QLabel(self.groupBox)
-        self.label_51.setObjectName("label_51")
-        self.gridLayout_4.addWidget(self.label_51, 6, 2, 1, 1)
+        self.gridLayout_4.addWidget(self.label_11, 7, 2, 1, 1)
         self.lineEdit_28 = QtWidgets.QLineEdit(self.groupBox)
         self.lineEdit_28.setMaximumSize(QtCore.QSize(70, 16777215))
         self.lineEdit_28.setObjectName("lineEdit_28")
-        self.gridLayout_4.addWidget(self.lineEdit_28, 6, 3, 1, 1)
-        self.label_73 = QtWidgets.QLabel(self.groupBox)
-        self.label_73.setObjectName("label_73")
-        self.gridLayout_4.addWidget(self.label_73, 4, 2, 1, 1)
-        self.lineEdit_39 = QtWidgets.QLineEdit(self.groupBox)
-        self.lineEdit_39.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_39.setObjectName("lineEdit_39")
-        self.gridLayout_4.addWidget(self.lineEdit_39, 4, 3, 1, 1)
+        self.gridLayout_4.addWidget(self.lineEdit_28, 12, 3, 1, 1)
+        self.label_9 = QtWidgets.QLabel(self.groupBox)
+        self.label_9.setObjectName("label_9")
+        self.gridLayout_4.addWidget(self.label_9, 6, 0, 1, 1)
+        self.label_20 = QtWidgets.QLabel(self.groupBox)
+        self.label_20.setObjectName("label_20")
+        self.gridLayout_4.addWidget(self.label_20, 5, 2, 1, 1)
+        self.lineEdit_15 = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit_15.setMaximumSize(QtCore.QSize(70, 16777215))
+        self.lineEdit_15.setObjectName("lineEdit_15")
+        self.gridLayout_4.addWidget(self.lineEdit_15, 5, 3, 1, 1)
+        self.label_27 = QtWidgets.QLabel(self.groupBox)
+        self.label_27.setObjectName("label_27")
+        self.gridLayout_4.addWidget(self.label_27, 12, 0, 1, 1)
+        self.comboBox_7 = QtWidgets.QComboBox(self.groupBox)
+        self.comboBox_7.setMinimumSize(QtCore.QSize(150, 0))
+        self.comboBox_7.setObjectName("comboBox_7")
+        self.gridLayout_4.addWidget(self.comboBox_7, 12, 1, 1, 1)
         self.verticalLayout_4.addWidget(self.groupBox)
         self.groupBox_4 = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.groupBox_4.setObjectName("groupBox_4")
@@ -284,32 +307,6 @@ class Ui_Dialog(object):
         self.label_55.setObjectName("label_55")
         self.gridLayout_3.addWidget(self.label_55, 1, 4, 1, 1)
         self.verticalLayout_4.addWidget(self.groupBox_4)
-        self.groupBox_2 = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
-        self.groupBox_2.setObjectName("groupBox_2")
-        self.gridLayout = QtWidgets.QGridLayout(self.groupBox_2)
-        self.gridLayout.setContentsMargins(-1, 5, -1, 5)
-        self.gridLayout.setVerticalSpacing(3)
-        self.gridLayout.setObjectName("gridLayout")
-        self.radioButton = QtWidgets.QRadioButton(self.groupBox_2)
-        self.radioButton.setChecked(True)
-        self.radioButton.setObjectName("radioButton")
-        self.gridLayout.addWidget(self.radioButton, 0, 0, 1, 1)
-        self.radioButton_3 = QtWidgets.QRadioButton(self.groupBox_2)
-        self.radioButton_3.setObjectName("radioButton_3")
-        self.gridLayout.addWidget(self.radioButton_3, 0, 2, 1, 1)
-        self.radioButton_2 = QtWidgets.QRadioButton(self.groupBox_2)
-        self.radioButton_2.setChecked(False)
-        self.radioButton_2.setObjectName("radioButton_2")
-        self.gridLayout.addWidget(self.radioButton_2, 0, 1, 1, 1)
-        self.label_18 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_18.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.label_18.setObjectName("label_18")
-        self.gridLayout.addWidget(self.label_18, 1, 0, 1, 1)
-        self.lineEdit_12 = QtWidgets.QLineEdit(self.groupBox_2)
-        self.lineEdit_12.setMaximumSize(QtCore.QSize(150, 16777215))
-        self.lineEdit_12.setObjectName("lineEdit_12")
-        self.gridLayout.addWidget(self.lineEdit_12, 1, 1, 1, 1)
-        self.verticalLayout_4.addWidget(self.groupBox_2)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_25 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
@@ -347,12 +344,6 @@ class Ui_Dialog(object):
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
         self.gridLayout_2.addWidget(self.comboBox, 0, 1, 1, 1)
         self.comboBox_3 = QtWidgets.QComboBox(self.groupBox_3)
         self.comboBox_3.setObjectName("comboBox_3")
@@ -367,35 +358,10 @@ class Ui_Dialog(object):
         self.label_16 = QtWidgets.QLabel(self.groupBox_3)
         self.label_16.setObjectName("label_16")
         self.gridLayout_2.addWidget(self.label_16, 2, 0, 1, 1)
-        self.label_15 = QtWidgets.QLabel(self.groupBox_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_15.sizePolicy().hasHeightForWidth())
-        self.label_15.setSizePolicy(sizePolicy)
-        self.label_15.setObjectName("label_15")
-        self.gridLayout_2.addWidget(self.label_15, 0, 2, 1, 1)
         self.lineEdit_13 = QtWidgets.QLineEdit(self.groupBox_3)
         self.lineEdit_13.setMaximumSize(QtCore.QSize(150, 16777215))
         self.lineEdit_13.setObjectName("lineEdit_13")
         self.gridLayout_2.addWidget(self.lineEdit_13, 2, 3, 1, 1)
-        self.comboBox_2 = QtWidgets.QComboBox(self.groupBox_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.comboBox_2.sizePolicy().hasHeightForWidth())
-        self.comboBox_2.setSizePolicy(sizePolicy)
-        self.comboBox_2.setMinimumSize(QtCore.QSize(150, 0))
-        self.comboBox_2.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.comboBox_2.setObjectName("comboBox_2")
-        self.gridLayout_2.addWidget(self.comboBox_2, 0, 3, 1, 1)
-        self.comboBox_7 = QtWidgets.QComboBox(self.groupBox_3)
-        self.comboBox_7.setMinimumSize(QtCore.QSize(150, 0))
-        self.comboBox_7.setObjectName("comboBox_7")
-        self.gridLayout_2.addWidget(self.comboBox_7, 1, 1, 1, 1)
-        self.label_27 = QtWidgets.QLabel(self.groupBox_3)
-        self.label_27.setObjectName("label_27")
-        self.gridLayout_2.addWidget(self.label_27, 1, 0, 1, 1)
         self.label_49 = QtWidgets.QLabel(self.groupBox_3)
         self.label_49.setObjectName("label_49")
         self.gridLayout_2.addWidget(self.label_49, 3, 0, 1, 1)
@@ -411,146 +377,6 @@ class Ui_Dialog(object):
         self.lineEdit_32.setObjectName("lineEdit_32")
         self.gridLayout_2.addWidget(self.lineEdit_32, 3, 3, 1, 1)
         self.verticalLayout_4.addWidget(self.groupBox_3)
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.label_26 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.label_26.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_26.setObjectName("label_26")
-        self.horizontalLayout_4.addWidget(self.label_26)
-        self.radioButton_6 = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
-        self.radioButton_6.setChecked(True)
-        self.radioButton_6.setObjectName("radioButton_6")
-        self.horizontalLayout_4.addWidget(self.radioButton_6)
-        self.radioButton_7 = QtWidgets.QRadioButton(self.scrollAreaWidgetContents)
-        self.radioButton_7.setChecked(False)
-        self.radioButton_7.setObjectName("radioButton_7")
-        self.horizontalLayout_4.addWidget(self.radioButton_7)
-        self.verticalLayout_4.addLayout(self.horizontalLayout_4)
-        self.groupBox_5 = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
-        self.groupBox_5.setObjectName("groupBox_5")
-        self.gridLayout_5 = QtWidgets.QGridLayout(self.groupBox_5)
-        self.gridLayout_5.setContentsMargins(-1, 5, -1, 5)
-        self.gridLayout_5.setVerticalSpacing(3)
-        self.gridLayout_5.setObjectName("gridLayout_5")
-        self.label_30 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_30.setObjectName("label_30")
-        self.gridLayout_5.addWidget(self.label_30, 1, 0, 1, 1)
-        self.label_61 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_61.setObjectName("label_61")
-        self.gridLayout_5.addWidget(self.label_61, 1, 2, 1, 1)
-        self.label_62 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_62.setObjectName("label_62")
-        self.gridLayout_5.addWidget(self.label_62, 5, 0, 1, 1)
-        self.comboBox_8 = QtWidgets.QComboBox(self.groupBox_5)
-        self.comboBox_8.setMinimumSize(QtCore.QSize(110, 0))
-        self.comboBox_8.setObjectName("comboBox_8")
-        self.comboBox_8.addItem("")
-        self.comboBox_8.addItem("")
-        self.comboBox_8.addItem("")
-        self.comboBox_8.addItem("")
-        self.comboBox_8.addItem("")
-        self.comboBox_8.addItem("")
-        self.comboBox_8.addItem("")
-        self.comboBox_8.addItem("")
-        self.gridLayout_5.addWidget(self.comboBox_8, 0, 1, 1, 1)
-        self.comboBox_10 = QtWidgets.QComboBox(self.groupBox_5)
-        self.comboBox_10.setMinimumSize(QtCore.QSize(150, 0))
-        self.comboBox_10.setObjectName("comboBox_10")
-        self.gridLayout_5.addWidget(self.comboBox_10, 1, 1, 1, 1)
-        self.comboBox_21 = QtWidgets.QComboBox(self.groupBox_5)
-        self.comboBox_21.setObjectName("comboBox_21")
-        self.comboBox_21.addItem("")
-        self.comboBox_21.addItem("")
-        self.comboBox_21.addItem("")
-        self.comboBox_21.addItem("")
-        self.gridLayout_5.addWidget(self.comboBox_21, 1, 3, 1, 1)
-        self.label_19 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_19.setObjectName("label_19")
-        self.gridLayout_5.addWidget(self.label_19, 2, 0, 1, 1)
-        self.label_29 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_29.setObjectName("label_29")
-        self.gridLayout_5.addWidget(self.label_29, 0, 2, 1, 1)
-        self.label_28 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_28.setObjectName("label_28")
-        self.gridLayout_5.addWidget(self.label_28, 0, 0, 1, 1)
-        self.label_21 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_21.setObjectName("label_21")
-        self.gridLayout_5.addWidget(self.label_21, 3, 0, 1, 1)
-        self.lineEdit_30 = QtWidgets.QLineEdit(self.groupBox_5)
-        self.lineEdit_30.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_30.setObjectName("lineEdit_30")
-        self.gridLayout_5.addWidget(self.lineEdit_30, 5, 1, 1, 1)
-        self.lineEdit_14 = QtWidgets.QLineEdit(self.groupBox_5)
-        self.lineEdit_14.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_14.setObjectName("lineEdit_14")
-        self.gridLayout_5.addWidget(self.lineEdit_14, 2, 1, 1, 1)
-        self.comboBox_5 = QtWidgets.QComboBox(self.groupBox_5)
-        self.comboBox_5.setMinimumSize(QtCore.QSize(70, 0))
-        self.comboBox_5.setObjectName("comboBox_5")
-        self.comboBox_5.addItem("")
-        self.comboBox_5.addItem("")
-        self.comboBox_5.addItem("")
-        self.comboBox_5.addItem("")
-        self.comboBox_5.addItem("")
-        self.comboBox_5.addItem("")
-        self.comboBox_5.addItem("")
-        self.gridLayout_5.addWidget(self.comboBox_5, 3, 3, 1, 1)
-        self.comboBox_9 = QtWidgets.QComboBox(self.groupBox_5)
-        self.comboBox_9.setMinimumSize(QtCore.QSize(150, 0))
-        self.comboBox_9.setObjectName("comboBox_9")
-        self.gridLayout_5.addWidget(self.comboBox_9, 0, 3, 1, 1)
-        self.label_23 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_23.setObjectName("label_23")
-        self.gridLayout_5.addWidget(self.label_23, 4, 0, 1, 1)
-        self.lineEdit_15 = QtWidgets.QLineEdit(self.groupBox_5)
-        self.lineEdit_15.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_15.setObjectName("lineEdit_15")
-        self.gridLayout_5.addWidget(self.lineEdit_15, 2, 3, 1, 1)
-        self.label_24 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_24.setObjectName("label_24")
-        self.gridLayout_5.addWidget(self.label_24, 4, 2, 1, 1)
-        self.label_22 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_22.setObjectName("label_22")
-        self.gridLayout_5.addWidget(self.label_22, 3, 2, 1, 1)
-        self.lineEdit_16 = QtWidgets.QLineEdit(self.groupBox_5)
-        self.lineEdit_16.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_16.setObjectName("lineEdit_16")
-        self.gridLayout_5.addWidget(self.lineEdit_16, 4, 1, 1, 1)
-        self.comboBox_6 = QtWidgets.QComboBox(self.groupBox_5)
-        self.comboBox_6.setMinimumSize(QtCore.QSize(50, 0))
-        self.comboBox_6.setObjectName("comboBox_6")
-        self.comboBox_6.addItem("")
-        self.comboBox_6.addItem("")
-        self.gridLayout_5.addWidget(self.comboBox_6, 4, 3, 1, 1)
-        self.label_20 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_20.setObjectName("label_20")
-        self.gridLayout_5.addWidget(self.label_20, 2, 2, 1, 1)
-        self.comboBox_4 = QtWidgets.QComboBox(self.groupBox_5)
-        self.comboBox_4.setMinimumSize(QtCore.QSize(70, 0))
-        self.comboBox_4.setObjectName("comboBox_4")
-        self.comboBox_4.addItem("")
-        self.comboBox_4.addItem("")
-        self.comboBox_4.addItem("")
-        self.comboBox_4.addItem("")
-        self.comboBox_4.addItem("")
-        self.comboBox_4.addItem("")
-        self.comboBox_4.addItem("")
-        self.gridLayout_5.addWidget(self.comboBox_4, 3, 1, 1, 1)
-        self.label_69 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_69.setObjectName("label_69")
-        self.gridLayout_5.addWidget(self.label_69, 6, 0, 1, 1)
-        self.lineEdit_35 = QtWidgets.QLineEdit(self.groupBox_5)
-        self.lineEdit_35.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_35.setObjectName("lineEdit_35")
-        self.gridLayout_5.addWidget(self.lineEdit_35, 6, 1, 1, 1)
-        self.label_70 = QtWidgets.QLabel(self.groupBox_5)
-        self.label_70.setObjectName("label_70")
-        self.gridLayout_5.addWidget(self.label_70, 6, 2, 1, 1)
-        self.lineEdit_36 = QtWidgets.QLineEdit(self.groupBox_5)
-        self.lineEdit_36.setMaximumSize(QtCore.QSize(70, 16777215))
-        self.lineEdit_36.setObjectName("lineEdit_36")
-        self.gridLayout_5.addWidget(self.lineEdit_36, 6, 3, 1, 1)
-        self.verticalLayout_4.addWidget(self.groupBox_5)
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.label_39 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
@@ -580,10 +406,6 @@ class Ui_Dialog(object):
         self.gridLayout_9.setContentsMargins(-1, 3, -1, 3)
         self.gridLayout_9.setVerticalSpacing(3)
         self.gridLayout_9.setObjectName("gridLayout_9")
-        self.comboBox_17 = QtWidgets.QComboBox(self.frame)
-        self.comboBox_17.setMinimumSize(QtCore.QSize(150, 0))
-        self.comboBox_17.setObjectName("comboBox_17")
-        self.gridLayout_9.addWidget(self.comboBox_17, 0, 3, 1, 1)
         self.label_41 = QtWidgets.QLabel(self.frame)
         self.label_41.setObjectName("label_41")
         self.gridLayout_9.addWidget(self.label_41, 1, 0, 1, 1)
@@ -606,13 +428,6 @@ class Ui_Dialog(object):
         self.lineEdit_21 = QtWidgets.QLineEdit(self.frame)
         self.lineEdit_21.setObjectName("lineEdit_21")
         self.gridLayout_9.addWidget(self.lineEdit_21, 0, 1, 1, 1)
-        self.label_56 = QtWidgets.QLabel(self.frame)
-        self.label_56.setObjectName("label_56")
-        self.gridLayout_9.addWidget(self.label_56, 0, 2, 1, 1)
-        self.comboBox_18 = QtWidgets.QComboBox(self.frame)
-        self.comboBox_18.setMinimumSize(QtCore.QSize(150, 0))
-        self.comboBox_18.setObjectName("comboBox_18")
-        self.gridLayout_9.addWidget(self.comboBox_18, 0, 6, 1, 1)
         self.lineEdit_24 = QtWidgets.QLineEdit(self.frame)
         self.lineEdit_24.setObjectName("lineEdit_24")
         self.gridLayout_9.addWidget(self.lineEdit_24, 1, 6, 1, 1)
@@ -622,15 +437,12 @@ class Ui_Dialog(object):
         self.label_42 = QtWidgets.QLabel(self.frame)
         self.label_42.setObjectName("label_42")
         self.gridLayout_9.addWidget(self.label_42, 0, 0, 1, 1)
-        self.label_57 = QtWidgets.QLabel(self.frame)
-        self.label_57.setObjectName("label_57")
-        self.gridLayout_9.addWidget(self.label_57, 0, 4, 1, 1)
         self.label_63 = QtWidgets.QLabel(self.frame)
         self.label_63.setObjectName("label_63")
-        self.gridLayout_9.addWidget(self.label_63, 2, 0, 1, 1)
+        self.gridLayout_9.addWidget(self.label_63, 0, 4, 1, 1)
         self.lineEdit_31 = QtWidgets.QLineEdit(self.frame)
         self.lineEdit_31.setObjectName("lineEdit_31")
-        self.gridLayout_9.addWidget(self.lineEdit_31, 2, 1, 1, 1)
+        self.gridLayout_9.addWidget(self.lineEdit_31, 0, 6, 1, 1)
         self.gridLayout_7.addWidget(self.frame, 1, 0, 1, 1)
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
@@ -685,20 +497,6 @@ class Ui_Dialog(object):
         self.lineEdit_25 = QtWidgets.QLineEdit(self.frame_2)
         self.lineEdit_25.setObjectName("lineEdit_25")
         self.gridLayout_10.addWidget(self.lineEdit_25, 0, 1, 1, 1)
-        self.label_58 = QtWidgets.QLabel(self.frame_2)
-        self.label_58.setObjectName("label_58")
-        self.gridLayout_10.addWidget(self.label_58, 0, 4, 1, 1)
-        self.label_59 = QtWidgets.QLabel(self.frame_2)
-        self.label_59.setObjectName("label_59")
-        self.gridLayout_10.addWidget(self.label_59, 0, 6, 1, 1)
-        self.comboBox_19 = QtWidgets.QComboBox(self.frame_2)
-        self.comboBox_19.setMinimumSize(QtCore.QSize(150, 0))
-        self.comboBox_19.setObjectName("comboBox_19")
-        self.gridLayout_10.addWidget(self.comboBox_19, 0, 5, 1, 1)
-        self.comboBox_20 = QtWidgets.QComboBox(self.frame_2)
-        self.comboBox_20.setMinimumSize(QtCore.QSize(150, 0))
-        self.comboBox_20.setObjectName("comboBox_20")
-        self.gridLayout_10.addWidget(self.comboBox_20, 0, 7, 1, 1)
         self.label_50 = QtWidgets.QLabel(self.frame_2)
         self.label_50.setObjectName("label_50")
         self.gridLayout_10.addWidget(self.label_50, 1, 4, 1, 1)
@@ -914,21 +712,11 @@ class Ui_Dialog(object):
         self.label.setText(_translate("Dialog", "nc文件路径："))
         self.pushButton.setText(_translate("Dialog", "选择"))
         self.label_2.setText(_translate("Dialog", "缩略图："))
+        self.radioButton_6.setText(_translate("Dialog", "沿纬度绘制"))
+        self.radioButton_7.setText(_translate("Dialog", "沿经度绘制"))
         self.groupBox.setTitle(_translate("Dialog", "经纬度及网格"))
-        self.label_6.setText(_translate("Dialog", "经度间隔（大）："))
-        self.label_5.setText(_translate("Dialog", "经度末："))
-        self.label_38.setText(_translate("Dialog", "图题："))
-        self.label_8.setText(_translate("Dialog", "纬度始："))
-        self.label_7.setText(_translate("Dialog", "经度间隔（小）："))
-        self.comboBox_15.setItemText(0, _translate("Dialog", "--"))
-        self.comboBox_15.setItemText(1, _translate("Dialog", "-"))
-        self.comboBox_15.setItemText(2, _translate("Dialog", "-."))
-        self.comboBox_15.setItemText(3, _translate("Dialog", ":"))
-        self.label_9.setText(_translate("Dialog", "纬度末："))
-        self.label_10.setText(_translate("Dialog", "纬度间隔（大）："))
-        self.label_4.setText(_translate("Dialog", "经度始："))
-        self.label_52.setText(_translate("Dialog", "网格颜色："))
-        self.label_53.setText(_translate("Dialog", "网格线型："))
+        self.label_8.setText(_translate("Dialog", "纬度："))
+        self.label_73.setText(_translate("Dialog", "标题大小："))
         self.comboBox_14.setItemText(0, _translate("Dialog", "gray"))
         self.comboBox_14.setItemText(1, _translate("Dialog", "black"))
         self.comboBox_14.setItemText(2, _translate("Dialog", "white"))
@@ -936,14 +724,30 @@ class Ui_Dialog(object):
         self.comboBox_14.setItemText(4, _translate("Dialog", "blue"))
         self.comboBox_14.setItemText(5, _translate("Dialog", "green"))
         self.comboBox_14.setItemText(6, _translate("Dialog", "yellow"))
-        self.label_11.setText(_translate("Dialog", "纬度间隔（小）："))
+        self.label_19.setText(_translate("Dialog", "末（hPa）："))
+        self.label_10.setText(_translate("Dialog", "间隔（大）（hPa）："))
+        self.label_6.setText(_translate("Dialog", "经度间隔（大）："))
+        self.label_7.setText(_translate("Dialog", "经度间隔（小）："))
         self.label_51.setText(_translate("Dialog", "网格粗细："))
+        self.label_38.setText(_translate("Dialog", "图题："))
+        self.label_5.setText(_translate("Dialog", "经度末："))
+        self.comboBox_15.setItemText(0, _translate("Dialog", "--"))
+        self.comboBox_15.setItemText(1, _translate("Dialog", "-"))
+        self.comboBox_15.setItemText(2, _translate("Dialog", "-."))
+        self.comboBox_15.setItemText(3, _translate("Dialog", ":"))
+        self.label_52.setText(_translate("Dialog", "网格颜色："))
+        self.lineEdit_39.setText(_translate("Dialog", "10"))
+        self.label_4.setText(_translate("Dialog", "经度始："))
+        self.label_53.setText(_translate("Dialog", "网格线型："))
+        self.label_11.setText(_translate("Dialog", "间隔（小）（hPa）："))
         self.lineEdit_28.setText(_translate("Dialog", "1"))
-        self.label_73.setText(_translate("Dialog", "标题大小："))
+        self.label_9.setText(_translate("Dialog", "始（hPa）："))
+        self.label_20.setText(_translate("Dialog", "横坐标网格点："))
+        self.label_27.setText(_translate("Dialog", "时间："))
         self.groupBox_4.setTitle(_translate("Dialog", "图片设置"))
         self.label_17.setText(_translate("Dialog", "DPI："))
-        self.lineEdit_9.setText(_translate("Dialog", "12"))
-        self.lineEdit_10.setText(_translate("Dialog", "6"))
+        self.lineEdit_9.setText(_translate("Dialog", "8"))
+        self.lineEdit_10.setText(_translate("Dialog", "4"))
         self.label_54.setText(_translate("Dialog", "坐标轴字体大小："))
         self.lineEdit_29.setText(_translate("Dialog", "10"))
         self.label_13.setText(_translate("Dialog", "图片高："))
@@ -957,26 +761,14 @@ class Ui_Dialog(object):
         self.comboBox_16.setItemText(6, _translate("Dialog", "yellow"))
         self.lineEdit_11.setText(_translate("Dialog", "150"))
         self.label_55.setText(_translate("Dialog", "坐标轴字体颜色："))
-        self.groupBox_2.setTitle(_translate("Dialog", "海岸线"))
-        self.radioButton.setText(_translate("Dialog", "10m"))
-        self.radioButton_3.setText(_translate("Dialog", "110m"))
-        self.radioButton_2.setText(_translate("Dialog", "50m"))
-        self.label_18.setText(_translate("Dialog", "线宽："))
-        self.lineEdit_12.setText(_translate("Dialog", "1"))
         self.label_25.setText(_translate("Dialog", "是否填充等高线："))
         self.radioButton_4.setText(_translate("Dialog", "是"))
         self.radioButton_5.setText(_translate("Dialog", "否"))
         self.groupBox_3.setTitle(_translate("Dialog", "等高线（填充）"))
         self.label_3.setText(_translate("Dialog", "变化间隔："))
         self.label_14.setText(_translate("Dialog", "填充种类："))
-        self.comboBox.setItemText(0, _translate("Dialog", "2m处温度（℃）"))
-        self.comboBox.setItemText(1, _translate("Dialog", "温度（℃）"))
-        self.comboBox.setItemText(2, _translate("Dialog", "10m处风速（水平）（m/s）"))
-        self.comboBox.setItemText(3, _translate("Dialog", "风速（水平）（m/s）"))
-        self.comboBox.setItemText(4, _translate("Dialog", "风速（垂直）（m/s）"))
-        self.comboBox.setItemText(5, _translate("Dialog", "2m处相对湿度（%）"))
-        self.comboBox.setItemText(6, _translate("Dialog", "相对湿度（%）"))
-        self.comboBox.setItemText(7, _translate("Dialog", "气压（hPa）"))
+        self.comboBox.setItemText(0, _translate("Dialog", "温度（℃）"))
+        self.comboBox.setItemText(1, _translate("Dialog", "相对湿度（%）"))
         self.comboBox_3.setItemText(0, _translate("Dialog", "jet"))
         self.comboBox_3.setItemText(1, _translate("Dialog", "turbo"))
         self.comboBox_3.setItemText(2, _translate("Dialog", "hsv"))
@@ -985,58 +777,8 @@ class Ui_Dialog(object):
         self.comboBox_3.setItemText(5, _translate("Dialog", "plasma"))
         self.comboBox_3.setItemText(6, _translate("Dialog", "rainbow"))
         self.label_16.setText(_translate("Dialog", "填色种类："))
-        self.label_15.setText(_translate("Dialog", "高度："))
-        self.label_27.setText(_translate("Dialog", "时间："))
         self.label_49.setText(_translate("Dialog", "填色最小值："))
         self.label_64.setText(_translate("Dialog", "填色最大值："))
-        self.label_26.setText(_translate("Dialog", "是否绘制等高线轮廓："))
-        self.radioButton_6.setText(_translate("Dialog", "是"))
-        self.radioButton_7.setText(_translate("Dialog", "否"))
-        self.groupBox_5.setTitle(_translate("Dialog", "等高线（轮廓）"))
-        self.label_30.setText(_translate("Dialog", "时间"))
-        self.label_61.setText(_translate("Dialog", "等高线线型："))
-        self.label_62.setText(_translate("Dialog", "数字精度："))
-        self.comboBox_8.setItemText(0, _translate("Dialog", "2m处温度（℃）"))
-        self.comboBox_8.setItemText(1, _translate("Dialog", "温度（℃）"))
-        self.comboBox_8.setItemText(2, _translate("Dialog", "10m处风速（水平）（m/s）"))
-        self.comboBox_8.setItemText(3, _translate("Dialog", "风速（水平）（m/s）"))
-        self.comboBox_8.setItemText(4, _translate("Dialog", "风速（垂直）（m/s）"))
-        self.comboBox_8.setItemText(5, _translate("Dialog", "2m处相对湿度（%）"))
-        self.comboBox_8.setItemText(6, _translate("Dialog", "相对湿度（%）"))
-        self.comboBox_8.setItemText(7, _translate("Dialog", "气压（hPa）"))
-        self.comboBox_21.setItemText(0, _translate("Dialog", "solid"))
-        self.comboBox_21.setItemText(1, _translate("Dialog", "dashed"))
-        self.comboBox_21.setItemText(2, _translate("Dialog", "dashdot"))
-        self.comboBox_21.setItemText(3, _translate("Dialog", "dotted"))
-        self.label_19.setText(_translate("Dialog", "等高线间隔："))
-        self.label_29.setText(_translate("Dialog", "高度："))
-        self.label_28.setText(_translate("Dialog", "等高线种类："))
-        self.label_21.setText(_translate("Dialog", "轮廓线颜色："))
-        self.lineEdit_30.setText(_translate("Dialog", "0"))
-        self.comboBox_5.setItemText(0, _translate("Dialog", "black"))
-        self.comboBox_5.setItemText(1, _translate("Dialog", "white"))
-        self.comboBox_5.setItemText(2, _translate("Dialog", "gray"))
-        self.comboBox_5.setItemText(3, _translate("Dialog", "red"))
-        self.comboBox_5.setItemText(4, _translate("Dialog", "blue"))
-        self.comboBox_5.setItemText(5, _translate("Dialog", "green"))
-        self.comboBox_5.setItemText(6, _translate("Dialog", "yellow"))
-        self.label_23.setText(_translate("Dialog", "字体大小："))
-        self.lineEdit_15.setText(_translate("Dialog", "1"))
-        self.label_24.setText(_translate("Dialog", "字体是否分开线条："))
-        self.label_22.setText(_translate("Dialog", "字体颜色："))
-        self.lineEdit_16.setText(_translate("Dialog", "10"))
-        self.comboBox_6.setItemText(0, _translate("Dialog", "是"))
-        self.comboBox_6.setItemText(1, _translate("Dialog", "否"))
-        self.label_20.setText(_translate("Dialog", "线宽："))
-        self.comboBox_4.setItemText(0, _translate("Dialog", "black"))
-        self.comboBox_4.setItemText(1, _translate("Dialog", "white"))
-        self.comboBox_4.setItemText(2, _translate("Dialog", "gray"))
-        self.comboBox_4.setItemText(3, _translate("Dialog", "red"))
-        self.comboBox_4.setItemText(4, _translate("Dialog", "blue"))
-        self.comboBox_4.setItemText(5, _translate("Dialog", "green"))
-        self.comboBox_4.setItemText(6, _translate("Dialog", "yellow"))
-        self.label_69.setText(_translate("Dialog", "轮廓最小值："))
-        self.label_70.setText(_translate("Dialog", "轮廓最大值："))
         self.label_39.setText(_translate("Dialog", "是否绘制风向："))
         self.radioButton_14.setText(_translate("Dialog", "是"))
         self.radioButton_15.setText(_translate("Dialog", "否"))
@@ -1052,13 +794,11 @@ class Ui_Dialog(object):
         self.comboBox_11.setItemText(6, _translate("Dialog", "yellow"))
         self.label_45.setText(_translate("Dialog", "箭头宽："))
         self.lineEdit_21.setText(_translate("Dialog", "1"))
-        self.label_56.setText(_translate("Dialog", "高度："))
         self.lineEdit_24.setText(_translate("Dialog", "4"))
         self.lineEdit_23.setText(_translate("Dialog", "0.0018"))
         self.label_42.setText(_translate("Dialog", "间隔多少绘制："))
-        self.label_57.setText(_translate("Dialog", "时间："))
         self.label_63.setText(_translate("Dialog", "箭头大小："))
-        self.lineEdit_31.setText(_translate("Dialog", "200"))
+        self.lineEdit_31.setText(_translate("Dialog", "250"))
         self.label_40.setText(_translate("Dialog", "类型："))
         self.radioButton_16.setText(_translate("Dialog", "箭头"))
         self.radioButton_17.setText(_translate("Dialog", "流线"))
@@ -1075,9 +815,7 @@ class Ui_Dialog(object):
         self.lineEdit_22.setText(_translate("Dialog", "1"))
         self.label_46.setText(_translate("Dialog", "密度："))
         self.label_43.setText(_translate("Dialog", "箭头大小："))
-        self.lineEdit_25.setText(_translate("Dialog", "1"))
-        self.label_58.setText(_translate("Dialog", "高度："))
-        self.label_59.setText(_translate("Dialog", "时间："))
+        self.lineEdit_25.setText(_translate("Dialog", "0.7"))
         self.label_50.setText(_translate("Dialog", "箭头种类："))
         self.comboBox_13.setItemText(0, _translate("Dialog", "-|>"))
         self.comboBox_13.setItemText(1, _translate("Dialog", "-"))
@@ -1126,6 +864,7 @@ class Ui_Dialog(object):
         self.pushButton_3.setText(_translate("Dialog", "绘图"))
         self.pushButton_2.setText(_translate("Dialog", "保存"))
 
+
         '''以下为个人编辑内容'''
         # 控制ui的radiobutton部分
         self.radioButton_group1 = QButtonGroup()  # 控制等高线填充的buttongroup
@@ -1149,10 +888,6 @@ class Ui_Dialog(object):
         self.radioButton_8.toggled.connect(self.radioButton_control)
         self.radioButton_9.toggled.connect(self.radioButton_control)
         # 每个模块内的radiobutton部分
-        self.radioButton_group5 = QButtonGroup()  # 控制海岸线的buttongroup
-        self.radioButton_group5.addButton(self.radioButton)
-        self.radioButton_group5.addButton(self.radioButton_2)
-        self.radioButton_group5.addButton(self.radioButton_3)
         self.radioButton_group6 = QButtonGroup()  # 控制风向模块的buttongroup
         self.radioButton_group6.addButton(self.radioButton_16)
         self.radioButton_group6.addButton(self.radioButton_17)
@@ -1177,26 +912,16 @@ class Ui_Dialog(object):
         self.radioButton_5.setChecked(True)
         self.radioButton_15.setChecked(True)
         self.radioButton_9.setChecked(True)
-        self.radioButton_7.setChecked(True)
+        self.radioButton_6.setChecked(True)
         # 选择文件按钮
         self.pushButton.clicked.connect(self.choosencfile)
         # 绘图按钮
         self.pushButton_3.clicked.connect(self.judge_draw_multi_or_not)
         self.pushButton_4.clicked.connect(self.draw_multi_pic_start)
         # combobox监控
-        self.comboBox.currentIndexChanged.connect(self.comboBox_control_1)
         self.comboBox.currentIndexChanged.connect(self.fill_max_min_online)
-        self.comboBox_8.currentIndexChanged.connect(self.comboBox_control_2)
-        self.comboBox_8.currentIndexChanged.connect(self.fill_max_min_online)
-        self.comboBox_2.currentIndexChanged.connect(self.fill_max_min_online)
         self.comboBox_7.currentIndexChanged.connect(self.fill_max_min_online)
-        self.comboBox_10.currentIndexChanged.connect(self.fill_max_min_online)
-        self.comboBox_9.currentIndexChanged.connect(self.fill_max_min_online)
         # 初始化的一些隐藏单位
-        self.label_15.hide()
-        self.label_29.hide()
-        self.comboBox_2.hide()
-        self.comboBox_9.hide()
         self.groupBox_8.hide()
         self.textBrowser.hide()
         # 保存按钮
@@ -1214,9 +939,17 @@ class Ui_Dialog(object):
             self.groupBox_3.hide()
         # 控制等高线轮廓的groupbox
         if self.radioButton_6.isChecked() == True:
-            self.groupBox_5.show()
+            self.label_4.setText('经度始：')
+            self.label_5.setText('经度末：')
+            self.label_6.setText('经度间隔（大）：')
+            self.label_7.setText('经度间隔（小）：')
+            self.label_8.setText('纬度：')
         if self.radioButton_7.isChecked() == True:
-            self.groupBox_5.hide()
+            self.label_4.setText('纬度始：')
+            self.label_5.setText('纬度末：')
+            self.label_6.setText('纬度间隔（大）：')
+            self.label_7.setText('纬度间隔（小）：')
+            self.label_8.setText('经度：')
         # 控制风向的groupbox
         if self.radioButton_14.isChecked() == True:
             self.groupBox_7.show()
@@ -1247,45 +980,17 @@ class Ui_Dialog(object):
             self.groupBox_8.show()
             self.textBrowser.show()
 
-    # 该函数用于控制填充等高线的combobox
-    def comboBox_control_1(self):
-        if self.comboBox.currentIndex() == 0 or self.comboBox.currentIndex() == 2 or self.comboBox.currentIndex() == 5:
-            self.label_15.hide()
-            self.comboBox_2.hide()
-        else:
-            self.label_15.show()
-            self.comboBox_2.show()
-
-    # 该函数用于控制轮廓等高线的combobox
-    def comboBox_control_2(self):
-        if self.comboBox_8.currentIndex() == 0 or self.comboBox_8.currentIndex() == 2 or self.comboBox_8.currentIndex() == 5:
-            self.label_29.hide()
-            self.comboBox_9.hide()
-        else:
-            self.label_29.show()
-            self.comboBox_9.show()
-
     # 选文件的函数
     def choosencfile(self):
         self.path, self.filetype = QtWidgets.QFileDialog.getOpenFileName(directory="C:/", filter="NC file (*.nc);;")
         self.textEdit.setText(self.path)
         timelist = self.get_ncfile_time(self.path)
         self.comboBox_7.addItems(timelist)
-        self.comboBox_10.addItems(timelist)
-        self.comboBox_18.addItems(timelist)
-        self.comboBox_20.addItems(timelist)
-        heightlist = self.get_ncfile_height(self.path)
-        self.comboBox_2.addItems(heightlist)
-        self.comboBox_9.addItems(heightlist)
-        self.comboBox_17.addItem('10m')
-        self.comboBox_19.addItem('10m')
-        self.comboBox_17.addItems(heightlist)
-        self.comboBox_19.addItems(heightlist)
         #初步填充最小值和最大值
-        self.fill_max_min_value(self.comboBox.currentIndex(),self.comboBox_7.currentIndex(),self.comboBox_2.currentIndex(),
+        self.fill_max_min_value(self.comboBox.currentIndex(),self.comboBox_7.currentIndex(),
                                 self.lineEdit_27,self.lineEdit_32)
-        self.fill_max_min_value(self.comboBox_8.currentIndex(),self.comboBox_10.currentIndex(),self.comboBox_9.currentIndex(),
-                                self.lineEdit_35,self.lineEdit_36)
+        self.fill_max_min_value(2,self.comboBox_7.currentIndex(),
+                                self.lineEdit_14,self.lineEdit_7)
 
     # 填充combobox的时间
     def get_ncfile_time(self, path):
@@ -1303,57 +1008,23 @@ class Ui_Dialog(object):
         self.time_num = len(timelist)
         return timelist
 
-    # 填充combobox的高度
-    def get_ncfile_height(self, path):
-        self.ncfile = nc.Dataset(path)
-        # 计算离地高度(大致)
-        height = getvar(self.ncfile, 'height')
-        height_maskedarray = to_np(height)
-        height_maskedarray_1 = height_maskedarray[:, 0, 0]
-        height_maskedarray_2 = height_maskedarray[:, -1, -1]
-        hgt_maskedarray = self.ncfile.variables['HGT']
-        hgt_maskedarray_1 = hgt_maskedarray[0, 0, 0]
-        hgt_maskedarray_2 = hgt_maskedarray[0, -1, -1]
-        height_to_earth_float = (
-                                            height_maskedarray_1 - hgt_maskedarray_1 + height_maskedarray_2 - hgt_maskedarray_2) / 2
-        height_to_earth = []
-        for i in height_to_earth_float:
-            height_to_earth.append(int(i))
-        height_num_list = list(range(height_maskedarray.shape[0]))
-        heightlist = []
-        for i in range(len(height_num_list)):
-            heightlist.append(str(height_num_list[i] + 1) + '-' + str(height_to_earth[i]) + 'm')
-        self.height_num = len(heightlist)
-        return heightlist
-
     #填充最小值
-    def fill_max_min_value(self,type,time,height,lineEdit_min,lineEdit_max):
+    def fill_max_min_value(self,type,time,lineEdit_min,lineEdit_max):
         if type == 0:
-            factor = self.ncfile.variables['T2']
-            factor = factor[time] - 273.15
+            factor = to_np(getvar(self.ncfile, 'tc', timeidx=time))
         if type == 1:
-            factor = to_np(getvar(self.ncfile, 'tc', timeidx=time))[height]
+            factor = to_np(getvar(self.ncfile, 'rh', timeidx=time))
         if type == 2:
-            factor = to_np(getvar(self.ncfile, 'wspd_wdir10', timeidx=time))[0]
-        if type == 3:
-            factor = to_np(getvar(self.ncfile, 'wspd_wdir', timeidx=time))[0, height]
-        if type == 4:
-            factor = to_np(getvar(self.ncfile, 'wa', timeidx=time))[height]
-        if type == 5:
-            factor = to_np(getvar(self.ncfile, 'rh2', timeidx=time))
-        if type == 6:
-            factor = to_np(getvar(self.ncfile, 'rh', timeidx=time))[height]
-        if type == 7:
-            factor = to_np(getvar(self.ncfile, 'pressure', timeidx=time))[height]
+            factor = to_np(getvar(self.ncfile, 'pressure', timeidx=time))
         lineEdit_min.setText(str(np.min(factor)))
         lineEdit_max.setText(str(np.max(factor)))
 
     #实时修改最小最大值
     def fill_max_min_online(self):
-        self.fill_max_min_value(self.comboBox.currentIndex(),self.comboBox_7.currentIndex(),self.comboBox_2.currentIndex(),
+        self.fill_max_min_value(self.comboBox.currentIndex(),self.comboBox_7.currentIndex(),
                                 self.lineEdit_27,self.lineEdit_32)
-        self.fill_max_min_value(self.comboBox_8.currentIndex(),self.comboBox_10.currentIndex(),self.comboBox_9.currentIndex(),
-                                self.lineEdit_35,self.lineEdit_36)
+        self.fill_max_min_value(2,self.comboBox_7.currentIndex(),
+                                self.lineEdit_14,self.lineEdit_7)
 
     def judge_draw_multi_or_not(self):
         if self.radioButton_19.isChecked()==True:
@@ -1363,86 +1034,50 @@ class Ui_Dialog(object):
             self.show_multi_pic()
 
     #绘制单张图片
+    '''解决了异常的版本
     def draw_pic(self):
         try:
             width, height, dpi, title = float(self.lineEdit_9.text()), float(self.lineEdit_10.text()), float(
                 self.lineEdit_11.text()), self.textEdit_2.toPlainText()
-            start_lon, end_lon, big_interval_lon, small_interval_lon = \
+            start_x, end_x, big_interval_x, small_interval_x = \
                 float(self.lineEdit.text()), float(self.lineEdit_5.text()), float(self.lineEdit_2.text()), float(
                     self.lineEdit_6.text())
-            start_lat, end_lat, big_interval_lat, small_interval_lat = \
-                float(self.lineEdit_3.text()), float(self.lineEdit_7.text()), float(self.lineEdit_4.text()), float(
+            start_p, end_p, big_interval_p, small_interval_p = \
+                float(self.lineEdit_7.text()), float(self.lineEdit_14.text()), float(self.lineEdit_4.text()), float(
                     self.lineEdit_8.text())
+            x_grid, point_line=float(self.lineEdit_15.text()),float(self.lineEdit_3.text())
             gridline_color, gridline_width, gridline_style = \
                 self.comboBox_14.currentText(), float(self.lineEdit_28.text()), self.comboBox_15.currentText()
-            coastline_precision, coastline_width = None, None
-            if self.radioButton.isChecked() == True:
-                coastline_precision, coastline_width = '10m', float(self.lineEdit_12.text())
-            if self.radioButton_2.isChecked() == True:
-                coastline_precision, coastline_width = '50m', float(self.lineEdit_12.text())
-            if self.radioButton_3.isChecked() == True:
-                coastline_precision, coastline_width = '110m', float(self.lineEdit_12.text())
             axis_font_size, axis_font_color = float(self.lineEdit_29.text()), self.comboBox_16.currentText()
             pic = Figure_Canvas(width, height, dpi)
+            lat_or_lon=None
+            if self.radioButton_6.isChecked()==True:
+                lat_or_lon=0
+            if self.radioButton_7.isChecked()==True:
+                lat_or_lon=1
             # 实例化一个FigureCanvas
             # 画出基本部分
             pic.draw_main_part(title, float(self.lineEdit_39.text()),
-                               start_lon, end_lon, big_interval_lon, small_interval_lon,
-                               start_lat, end_lat, big_interval_lat, small_interval_lat,
+                               start_x, end_x, big_interval_x, small_interval_x,x_grid,point_line,
+                               start_p, end_p, big_interval_p, small_interval_p,
                                gridline_color, gridline_width, gridline_style,
-                               coastline_precision, coastline_width,
-                               axis_font_size, axis_font_color)
+                               axis_font_size, axis_font_color,lat_or_lon)
+
             # 画出等高线填充部分
             if self.radioButton_4.isChecked() == True:
-                # 不需要高度的参数
-                if self.comboBox.currentIndex() == 0 or self.comboBox.currentIndex() == 2 or self.comboBox.currentIndex() == 5:
-                    pic.draw_contourf(self.ncfile, self.comboBox.currentIndex(), self.comboBox_7.currentIndex(),
-                                      self.comboBox_3.currentText(),float(self.lineEdit_13.text()),
-                                      float(self.lineEdit_27.text()),float(self.lineEdit_32.text()))
-                # 需要高度的参数
-                else:
-                    pic.draw_contourf(self.ncfile, self.comboBox.currentIndex(), self.comboBox_7.currentIndex(),
-                                      self.comboBox_3.currentText(), float(self.lineEdit_13.text()),
-                                      float(self.lineEdit_27.text()), float(self.lineEdit_32.text()),
-                                      height=self.comboBox_2.currentIndex())
-            # 画出等高线轮廓部分
-            font_division = None
-            if self.comboBox_6.currentIndex() == 0:
-                font_division = True
-            if self.comboBox_6.currentIndex() == 1:
-                font_division = False
-            if self.radioButton_6.isChecked() == True:
-                # 不需要高度的参数
-                if self.comboBox.currentIndex() == 0 or self.comboBox.currentIndex() == 2 or self.comboBox.currentIndex() == 5:
-                    pic.draw_contour(self.ncfile, self.comboBox_8.currentIndex(), self.comboBox_10.currentIndex(),
-                                     float(self.lineEdit_14.text()), self.comboBox_21.currentText(),
-                                     float(self.lineEdit_15.text()),
-                                     self.comboBox_4.currentText(), float(self.lineEdit_16.text()),
-                                     self.comboBox_5.currentText(),
-                                     font_division, int(self.lineEdit_30.text()),
-                                     float(self.lineEdit_35.text()), float(self.lineEdit_36.text()))
-                # 需要高度的参数
-                else:
-                    pic.draw_contour(self.ncfile, self.comboBox_8.currentIndex(), self.comboBox_10.currentIndex(),
-                                     float(self.lineEdit_14.text()), self.comboBox_21.currentText(),
-                                     float(self.lineEdit_15.text()),
-                                     self.comboBox_4.currentText(), float(self.lineEdit_16.text()),
-                                     self.comboBox_5.currentText(),
-                                     font_division, int(self.lineEdit_30.text()),
-                                     float(self.lineEdit_35.text()), float(self.lineEdit_36.text()),
-                                     height=self.comboBox_9.currentIndex())
+                pic.draw_contourf(self.ncfile, self.comboBox.currentIndex(), self.comboBox_7.currentIndex(),
+                                  self.comboBox_3.currentText(), float(self.lineEdit_13.text()),
+                                  float(self.lineEdit_27.text()), float(self.lineEdit_32.text()),lat_or_lon)
             # 画出风向部分
             if self.radioButton_14.isChecked() == True:
                 if self.radioButton_16.isChecked() == True:
-                    pic.draw_quiver(self.ncfile, int(self.lineEdit_21.text()), self.comboBox_17.currentIndex(),
-                                    self.comboBox_18.currentIndex(), self.comboBox_11.currentText(),
-                                    float(self.lineEdit_23.text()),
-                                    float(self.lineEdit_24.text()), float(self.lineEdit_31.text()))
+                    pic.draw_quiver(self.ncfile, int(self.lineEdit_21.text()),self.comboBox_7.currentIndex(),
+                                    self.comboBox_11.currentText(),float(self.lineEdit_23.text()),
+                                    float(self.lineEdit_24.text()), float(self.lineEdit_31.text()),lat_or_lon)
                 if self.radioButton_17.isChecked() == True:
-                    pic.draw_streamplot(self.ncfile, float(self.lineEdit_25.text()), self.comboBox_19.currentIndex(),
-                                        self.comboBox_20.currentIndex(), float(self.lineEdit_22.text()),
-                                        self.comboBox_12.currentText(),
-                                        float(self.lineEdit_26.text()), self.comboBox_13.currentText())
+                    pic.draw_streamplot(self.ncfile, float(self.lineEdit_25.text()), self.comboBox_7.currentIndex(),
+                                        float(self.lineEdit_22.text()),self.comboBox_12.currentText(),
+                                        float(self.lineEdit_26.text()), self.comboBox_13.currentText(),lat_or_lon)
             # 画出colorbar部分
             orientation = None
             if self.radioButton_8.isChecked() == True:
@@ -1464,6 +1099,69 @@ class Ui_Dialog(object):
             self.pic = pic
         except (ValueError,RuntimeError,AttributeError):
             QtWidgets.QMessageBox.critical(None, "错误", "某些参数设置错误或未设置")
+    '''
+    #没有解决异常的版本
+    def draw_pic(self):
+        width, height, dpi, title = float(self.lineEdit_9.text()), float(self.lineEdit_10.text()), float(
+            self.lineEdit_11.text()), self.textEdit_2.toPlainText()
+        start_x, end_x, big_interval_x, small_interval_x = \
+            float(self.lineEdit.text()), float(self.lineEdit_5.text()), float(self.lineEdit_2.text()), float(
+                self.lineEdit_6.text())
+        start_p, end_p, big_interval_p, small_interval_p = \
+            float(self.lineEdit_14.text()), float(self.lineEdit_7.text()), float(self.lineEdit_4.text()), float(
+                self.lineEdit_8.text())
+        x_grid, point_line = float(self.lineEdit_15.text()), float(self.lineEdit_3.text())
+        gridline_color, gridline_width, gridline_style = \
+            self.comboBox_14.currentText(), float(self.lineEdit_28.text()), self.comboBox_15.currentText()
+        axis_font_size, axis_font_color = float(self.lineEdit_29.text()), self.comboBox_16.currentText()
+        pic = Figure_Canvas(width, height, dpi)
+        lat_or_lon = None
+        if self.radioButton_6.isChecked() == True:
+            lat_or_lon = 0
+        if self.radioButton_7.isChecked() == True:
+            lat_or_lon = 1
+        # 实例化一个FigureCanvas
+        # 画出基本部分
+        pic.draw_main_part(title, float(self.lineEdit_39.text()),
+                           start_x, end_x, big_interval_x, small_interval_x, x_grid, point_line,
+                           start_p, end_p, big_interval_p, small_interval_p,
+                           gridline_color, gridline_width, gridline_style,
+                           axis_font_size, axis_font_color, lat_or_lon)
+
+        # 画出等高线填充部分
+        if self.radioButton_4.isChecked() == True:
+            pic.draw_contourf(self.ncfile, self.comboBox.currentIndex(), self.comboBox_7.currentIndex(),
+                              self.comboBox_3.currentText(), float(self.lineEdit_13.text()),
+                              float(self.lineEdit_27.text()), float(self.lineEdit_32.text()), lat_or_lon)
+        # 画出风向部分
+        if self.radioButton_14.isChecked() == True:
+            if self.radioButton_16.isChecked() == True:
+                pic.draw_quiver(self.ncfile, int(self.lineEdit_21.text()), self.comboBox_7.currentIndex(),
+                                self.comboBox_11.currentText(), float(self.lineEdit_23.text()),
+                                float(self.lineEdit_24.text()), float(self.lineEdit_31.text()), lat_or_lon)
+            if self.radioButton_17.isChecked() == True:
+                pic.draw_streamplot(self.ncfile, float(self.lineEdit_25.text()), self.comboBox_7.currentIndex(),
+                                    float(self.lineEdit_22.text()), self.comboBox_12.currentText(),
+                                    float(self.lineEdit_26.text()), self.comboBox_13.currentText(), lat_or_lon)
+        # 画出colorbar部分
+        orientation = None
+        if self.radioButton_8.isChecked() == True:
+            if self.radioButton_12.isChecked() == True:
+                pic.draw_colorbar(0, self.comboBox.currentText())
+            if self.radioButton_13.isChecked() == True:
+                if self.radioButton_10.isChecked() == True:
+                    orientation = 'vertical'
+                if self.radioButton_11.isChecked() == True:
+                    orientation = 'horizontal'
+                pic.draw_colorbar(1, self.textEdit_3.toPlainText(), hor_position=float(self.lineEdit_17.text()),
+                                  ver_position=float(self.lineEdit_18.text()),
+                                  hor_length=float(self.lineEdit_19.text()),
+                                  ver_length=float(self.lineEdit_20.text()), orientation=orientation)
+        graphicscene = QtWidgets.QGraphicsScene()  # 第三步，创建一个QGraphicsScene，因为加载的图形（FigureCanvas）不能直接放到graphicview控件中，必须先放到graphicScene，然后再把graphicscene放到graphicview中
+        graphicscene.addWidget(pic)  # 第四步，把图形放到QGraphicsScene中，注意：图形是作为一个QWidget放到QGraphicsScene中的
+        self.graphicsView.setScene(graphicscene)  # 第五步，把QGraphicsScene放入QGraphicsView
+        self.graphicsView.show()  # 最后，调用show方法呈现图形！Voila!!
+        self.pic = pic
 
     def draw_multi_pic_start(self):
         print(self.current_multi_pic)
@@ -1487,13 +1185,6 @@ class Ui_Dialog(object):
                     self.lineEdit_8.text())
             gridline_color, gridline_width, gridline_style = \
                 self.comboBox_14.currentText(), float(self.lineEdit_28.text()), self.comboBox_15.currentText()
-            coastline_precision, coastline_width = None, None
-            if self.radioButton.isChecked() == True:
-                coastline_precision, coastline_width = '10m', float(self.lineEdit_12.text())
-            if self.radioButton_2.isChecked() == True:
-                coastline_precision, coastline_width = '50m', float(self.lineEdit_12.text())
-            if self.radioButton_3.isChecked() == True:
-                coastline_precision, coastline_width = '110m', float(self.lineEdit_12.text())
             axis_font_size, axis_font_color = float(self.lineEdit_29.text()), self.comboBox_16.currentText()
             # 实例化一个FigureCanvas
             # 画出基本部分
@@ -1501,7 +1192,6 @@ class Ui_Dialog(object):
                                start_lon, end_lon, big_interval_lon, small_interval_lon,
                                start_lat, end_lat, big_interval_lat, small_interval_lat,
                                gridline_color, gridline_width, gridline_style,
-                               coastline_precision, coastline_width,
                                axis_font_size, axis_font_color,
                                ver_num=int(self.lineEdit_34.text()),hor_num=int(self.lineEdit_33.text()),
                                current_num=self.current_multi_pic)
@@ -1518,42 +1208,16 @@ class Ui_Dialog(object):
                                       self.comboBox_3.currentText(), float(self.lineEdit_13.text()),
                                       float(self.lineEdit_27.text()), float(self.lineEdit_32.text()),
                                       height=self.comboBox_2.currentIndex())
-            # 画出等高线轮廓部分
-            font_division = None
-            if self.comboBox_6.currentIndex() == 0:
-                font_division = True
-            if self.comboBox_6.currentIndex() == 1:
-                font_division = False
-            if self.radioButton_6.isChecked() == True:
-                # 不需要高度的参数
-                if self.comboBox.currentIndex() == 0 or self.comboBox.currentIndex() == 2 or self.comboBox.currentIndex() == 5:
-                    self.pic.draw_contour(self.ncfile, self.comboBox_8.currentIndex(), self.comboBox_10.currentIndex(),
-                                     float(self.lineEdit_14.text()), self.comboBox_21.currentText(),
-                                     float(self.lineEdit_15.text()),
-                                     self.comboBox_4.currentText(), float(self.lineEdit_16.text()),
-                                     self.comboBox_5.currentText(),
-                                     font_division, int(self.lineEdit_30.text()),
-                                     float(self.lineEdit_35.text()), float(self.lineEdit_36.text()))
-                # 需要高度的参数
-                else:
-                    self.pic.draw_contour(self.ncfile, self.comboBox_8.currentIndex(), self.comboBox_10.currentIndex(),
-                                     float(self.lineEdit_14.text()), self.comboBox_21.currentText(),
-                                     float(self.lineEdit_15.text()),
-                                     self.comboBox_4.currentText(), float(self.lineEdit_16.text()),
-                                     self.comboBox_5.currentText(),
-                                     font_division, int(self.lineEdit_30.text()),
-                                     float(self.lineEdit_35.text()), float(self.lineEdit_36.text()),
-                                     height=self.comboBox_9.currentIndex())
             # 画出风向部分
             if self.radioButton_14.isChecked() == True:
                 if self.radioButton_16.isChecked() == True:
                     self.pic.draw_quiver(self.ncfile, int(self.lineEdit_21.text()), self.comboBox_17.currentIndex(),
-                                    self.comboBox_18.currentIndex(), self.comboBox_11.currentText(),
+                                    self.comboBox_7.currentIndex(), self.comboBox_11.currentText(),
                                     float(self.lineEdit_23.text()),
                                     float(self.lineEdit_24.text()), float(self.lineEdit_31.text()))
                 if self.radioButton_17.isChecked() == True:
                     self.pic.draw_streamplot(self.ncfile, float(self.lineEdit_25.text()), self.comboBox_19.currentIndex(),
-                                        self.comboBox_20.currentIndex(), float(self.lineEdit_22.text()),
+                                        self.comboBox_7.currentIndex(), float(self.lineEdit_22.text()),
                                         self.comboBox_12.currentText(),
                                         float(self.lineEdit_26.text()), self.comboBox_13.currentText())
             # 画出colorbar部分
@@ -1608,23 +1272,19 @@ class Figure_Canvas(FigureCanvas):
         FigureCanvas.__init__(self, self.fig)  # 初始化父类
         self.setParent(parent)
 
-
+    '''解决了异常的版本
     def draw_main_part(self, title, title_size,
-                       start_lon, end_lon, big_interval_lon, small_interval_lon,
-                       start_lat, end_lat, big_interval_lat, small_interval_lat,
+                       start_x, end_x, big_interval_x, small_interval_x, x_grid, point_line,
+                       start_p, end_p, big_interval_p, small_interval_p,
                        gridline_color, gridline_width, gridline_style,
-                       coastline_precision, coastline_width,
-                       axis_font_size, axis_font_color,ver_num=1,hor_num=1,current_num=1):
+                       axis_font_size, axis_font_color,lat_or_lon,ver_num=1,hor_num=1,current_num=1):
         try:
             proj = ccrs.PlateCarree()
             self.axe = plt.subplot(ver_num,hor_num,current_num, projection=proj)
-            print(type(self.axe))
             # 正常做法是调用figure下面的add_subplot方法，类似于matplotlib.pyplot下面的subplot方法。但是pyplot能够使用的功能更多
             self.axe.set_title(title,fontsize=title_size)  # 设置图题
             proj = ccrs.PlateCarree()
-            self.axe.add_feature(cfeat.COASTLINE.with_scale(coastline_precision), linewidth=coastline_width,
-                                 zorder=1)  # 添加海岸线
-            self.axe.set_extent([start_lon, end_lon, start_lat, end_lat], crs=proj)  # 设置图的范围
+            self.axe.set_extent([start_x, end_x, start_p, end_p], crs=proj)  # 设置图的范围
             # 绘制网格
             gl = self.axe.gridlines(
                 crs=ccrs.PlateCarree(), draw_labels=True,
@@ -1637,169 +1297,190 @@ class Figure_Canvas(FigureCanvas):
             # 自定义给出x轴Locator的位置
             gl.xlocator = mticker.FixedLocator(np.arange(start_lon, end_lon, big_interval_lon))
             gl.ylocator = mticker.FixedLocator(np.arange(start_lat, end_lat, big_interval_lat))
-            self.axe.set_xticks(np.arange(start_lon, end_lon + big_interval_lon / 1000, big_interval_lon), crs=proj)
-            self.axe.set_xticks(np.arange(start_lon, end_lon, small_interval_lon), crs=proj, minor=True)
-            self.axe.set_yticks(np.arange(start_lat, end_lat + big_interval_lat / 1000, big_interval_lat), crs=proj)
-            self.axe.set_yticks(np.arange(start_lat, end_lat, small_interval_lat), crs=proj, minor=True)
-            self.axe.xaxis.set_major_formatter(LongitudeFormatter())
-            self.axe.yaxis.set_major_formatter(LatitudeFormatter())
+            self.axe.set_xticks(np.arange(start_x, end_x + big_interval_x / 1000, big_interval_x), crs=proj)
+            self.axe.set_xticks(np.arange(start_x, end_x, small_interval_x), crs=proj, minor=True)
+            self.axe.set_yticks(np.arange(start_p, end_p + big_interval_p / 1000, big_interval_p), crs=proj)
+            self.axe.set_yticks(np.arange(start_p, end_p, small_interval_p), crs=proj, minor=True)
+            #这里添加一个self.xi,self.yi,self.xlist以供后面的需要
+            self.xi, self.yi = np.mgrid[start_x:end_x:complex(str(x_grid) + 'j'), point_line:point_line:1j]
+            if lat_or_lon==0:#0表示沿着纬度线进行剖切
+                self.axe.xaxis.set_major_formatter(LongitudeFormatter())
+            if lat_or_lon==1:#1表示沿着经度线进行剖切
+                self.axe.xaxis.set_major_formatter(LatitudeFormatter())
             plt.xticks(fontsize=axis_font_size, color=axis_font_color)  # 这一行代码用于修改刻度的字体
             plt.yticks(fontsize=axis_font_size, color=axis_font_color)  # 这一行代码用于修改刻度的字体
         except (ValueError,RuntimeError,AttributeError):
             QtWidgets.QMessageBox.critical(None, "错误", "某些参数设置错误或未设置")
+    '''
+    #没有解决异常的测试版本
+    def draw_main_part(self, title, title_size,
+                       start_x, end_x, big_interval_x, small_interval_x, x_grid, point_line,
+                       start_p, end_p, big_interval_p, small_interval_p,
+                       gridline_color, gridline_width, gridline_style,
+                       axis_font_size, axis_font_color,lat_or_lon,ver_num=1,hor_num=1,current_num=1):
+        self.axe = plt.subplot(ver_num,hor_num,current_num)
+        print(type(self.axe))
+        # 正常做法是调用figure下面的add_subplot方法，类似于matplotlib.pyplot下面的subplot方法。但是pyplot能够使用的功能更多
+        self.axe.set_title(title,fontsize=title_size)  # 设置图题
+        self.axe.set_xlim(start_x,end_x)
+        self.axe.set_ylim(start_p,end_p)# 设置图的范围
+        # 绘制网格
+        self.axe.set_xticks(np.arange(start_x, end_x + big_interval_x / 1000, big_interval_x))
+        self.axe.set_xticks(np.arange(start_x, end_x, small_interval_x), minor=True)
+        self.axe.set_yticks(np.arange(start_p, end_p + big_interval_p / 10000, big_interval_p))
+        self.axe.set_yticks(np.arange(start_p, end_p, small_interval_p), minor=True)
+        self.axe.grid(color=gridline_color, linestyle=gridline_style, linewidth=gridline_width)
+        self.axe.invert_yaxis()
+        #这里添加一个self.xi,self.yi,self.xlist以供后面的需要
+        xi, yi = np.mgrid[start_x:end_x:complex(str(x_grid) + 'j'), point_line:point_line:1j]
+        self.xi = [row[0] for row in xi]
+        self.yi = [row[0] for row in yi]
+        self.start_p=start_p
+        self.end_p=end_p
+        self.start_x=start_x
+        self.end_x=end_x
+        self.x_grid=x_grid
+        if lat_or_lon==0:#0表示沿着纬度线进行剖切
+            self.axe.xaxis.set_major_formatter(LongitudeFormatter())
+        if lat_or_lon==1:#1表示沿着经度线进行剖切
+            self.axe.xaxis.set_major_formatter(LatitudeFormatter())
+        plt.xticks(fontsize=axis_font_size, color=axis_font_color)  # 这一行代码用于修改刻度的字体
+        plt.yticks(fontsize=axis_font_size, color=axis_font_color)  # 这一行代码用于修改刻度的字体
+
+
 
     # 绘制填充等高线的函数
-    def draw_contourf(self, ncfile, type, time, color_type, interval,contourf_min,contourf_max, height=None):
+    '''解决了异常的版本
+    def draw_contourf(self, ncfile, type, time, color_type, interval, contourf_min,contourf_max,lat_or_lon):
         try:
-            lats = getvar(ncfile, "XLAT")
-            lons = getvar(ncfile, "XLONG")
-            factor = None
-            if type == 0:
-                factor = ncfile.variables['T2']
-                factor = factor[time] - 273.15
-            if type == 1:
-                factor = to_np(getvar(ncfile, 'tc', timeidx=time))[height]
-            if type == 2:
-                factor = to_np(getvar(ncfile, 'wspd_wdir10', timeidx=time))[0]
-            if type == 3:
-                factor = to_np(getvar(ncfile, 'wspd_wdir', timeidx=time))[0, height]
-            if type == 4:
-                factor = to_np(getvar(ncfile, 'wa', timeidx=time))[height]
-            if type == 5:
-                factor = to_np(getvar(ncfile, 'rh2', timeidx=time))
-            if type == 6:
-                factor = to_np(getvar(ncfile, 'rh', timeidx=time))[height]
-            if type == 7:
-                factor = to_np(getvar(ncfile, 'pressure', timeidx=time))[height]
-            self.contourf = self.axe.contourf(lons, lats, factor,
+            pressure=self.griddata(ncfile,4,time,lat_or_lon)
+            #由于self.xi只有一维的信息，而其他都是二维的，所以xi也要变成二维的
+            x_list = []
+            for i in range(len(pressure)):
+                x_list.append(self.xi.tolist())
+            factor=self.griddata(ncfile,type,time,lat_or_lon)
+            self.contourf = self.axe.contourf(x_list, pressure, factor,
                                               levels=np.arange(contourf_min, contourf_max, interval),
                                               cmap=plt.get_cmap(color_type))
         except (ValueError,RuntimeError,AttributeError):
             QtWidgets.QMessageBox.critical(None, "错误", "某些参数设置错误或未设置")
-
-    # 绘制等高线轮廓的函数
-    def draw_contour(self, ncfile, type, time, interval,
-                     contour_style, contour_width, contour_color,
-                     font_size, font_color, font_division, font_pre,
-                     contourf_min,contourf_max,height=None):
-        try:
-            lats = getvar(ncfile, "XLAT")
-            lons = getvar(ncfile, "XLONG")
-            factor = None
-            if type == 0:
-                factor = ncfile.variables['T2']
-                factor = factor[time] - 273.15
-            if type == 1:
-                factor = to_np(getvar(ncfile, 'tc', timeidx=time))[height]
-            if type == 2:
-                factor = to_np(getvar(ncfile, 'wspd_wdir10', timeidx=time))[0]
-            if type == 3:
-                factor = to_np(getvar(ncfile, 'wspd_wdir', timeidx=time))[0, height]
-            if type == 4:
-                factor = to_np(getvar(ncfile, 'wa', timeidx=time))[height]
-            if type == 5:
-                factor = to_np(getvar(ncfile, 'rh2', timeidx=time))
-            if type == 6:
-                factor = to_np(getvar(ncfile, 'rh', timeidx=time))[height]
-            if type == 7:
-                factor = to_np(getvar(ncfile, 'pressure', timeidx=time))[height]
-            level = np.arange(contourf_min, contourf_max, interval)
-            contour = self.axe.contour(lons, lats, factor, levels=level, colors=contour_color,
-                                       linewidths=contour_width, linestyles=contour_style)
-            self.axe.clabel(contour, inline=font_division, fontsize=font_size, colors=font_color,
-                            fmt='%1.' + str(font_pre) + 'f')
-        except (ValueError,RuntimeError,AttributeError):
-            QtWidgets.QMessageBox.critical(None, "错误", "某些参数设置错误或未设置")
+    '''
+    #没有解决异常的测试版本
+    def draw_contourf(self, ncfile, type, time, color_type, interval, contourf_min, contourf_max, lat_or_lon):
+        pressure = self.griddata(ncfile, 4, time, lat_or_lon)
+        # 由于self.xi只有一维的信息，而其他都是二维的，所以xi也要变成二维的
+        x_list = []
+        for i in range(len(pressure)):
+            x_list.append(self.xi)
+        factor = self.griddata(ncfile, type, time, lat_or_lon)
+        print('填充绘制完毕')
+        self.contourf = self.axe.contourf(x_list, pressure, factor,
+                                          levels=np.arange(contourf_min, contourf_max, interval),
+                                          cmap=plt.get_cmap(color_type))
 
     # 画风向的函数_箭头
-    def draw_quiver(self, ncfile, interval, height, time, quiver_color, quiver_width, quiver_headwidth, quiver_scale):
+    '''解决了异常的版本
+    def draw_quiver(self, ncfile, interval, time, quiver_color, quiver_width, quiver_headwidth, quiver_scale,lat_or_lon):
         try:
-            lats = getvar(ncfile, "XLAT")
-            lons = getvar(ncfile, "XLONG")
-            if height == 0:
-                u = ncfile.variables['U10'][time]
-                v = ncfile.variables['V10'][time]
-            else:
-                u = to_np(getvar(ncfile, 'ua', timeidx=time))[height]
-                v = to_np(getvar(ncfile, 'va', timeidx=time))[height]
-            u, v = u[::interval, ::interval], v[::interval, ::interval]
-            lats, lons = lats[::interval, ::interval], lons[::interval, ::interval]
-            self.axe.quiver(lons, lats, u, v, pivot='mid',
+            hor_ws=self.griddata(ncfile,3,time,lat_or_lon)
+            w=self.griddata(ncfile,2,time,lat_or_lon)
+            pressure = self.griddata(ncfile, 4, time, lat_or_lon)
+            hor_ws, w = hor_ws[::interval, ::interval], w[::interval, ::interval]
+            #由于self.xi只有一维的信息，而其他都是二维的，所以xi也要变成二维的
+            x_list = []
+            for i in range(len(pressure)):
+                x_list.append(self.xi.tolist())
+            self.axe.quiver(x_list, pressure, hor_ws, w, pivot='mid',
                             width=quiver_width, scale=quiver_scale, color=quiver_color, headwidth=quiver_headwidth,
                             transform=ccrs.PlateCarree())
         except (ValueError,RuntimeError,AttributeError):
             QtWidgets.QMessageBox.critical(None, "错误", "某些参数设置错误或未设置")
+    '''
+    #没有解决异常的测试版本
+    def draw_quiver(self, ncfile, interval, time, quiver_color, quiver_width, quiver_headwidth, quiver_scale,lat_or_lon):
+        hor_ws = self.griddata(ncfile, 3, time, lat_or_lon)
+        w = self.griddata(ncfile, 2, time, lat_or_lon)
+        pressure = self.griddata(ncfile, 4, time, lat_or_lon)
+        hor_ws, w = np.array(hor_ws)[::interval, ::interval], np.array(w)[::interval, ::interval]
+        # 由于self.xi只有一维的信息，而其他都是二维的，所以xi也要变成二维的
+        x_list = []
+        for i in range(len(pressure)):
+            x_list.append(self.xi)
+        x_list, pressure = np.array(x_list)[::interval, ::interval], np.array(pressure)[::interval, ::interval]
+        print('箭头绘制完毕')
+        print(np.array(x_list).shape)
+        print(np.array(pressure).shape)
+        print(np.array(hor_ws).shape)
+        print(np.array(w).shape)
+        self.axe.quiver(x_list, pressure, hor_ws, w, pivot='mid',
+                        width=quiver_width, scale=quiver_scale, color=quiver_color, headwidth=quiver_headwidth)
 
-    # 画风向的函数_流线 这一个函数是经过网格化处理的，因为streamplot只能绘制网格化的数据
-    def draw_streamplot(self, ncfile, density, height, time, arrow_headwidth, stream_color, stream_width, arrow_type):
+    # 画风向的函数_流线
+    '''解决了异常的版本
+    def draw_streamplot(self, ncfile, density, time, arrow_headwidth, stream_color, stream_width, arrow_type,lat_or_lon):
         try:
-            lats = to_np(getvar(ncfile, "XLAT"))
-            lons = to_np(getvar(ncfile, "XLONG"))
-            lon=lons[0]
-            lat=lats[:,0]
-            print("横向的经度：")
-            print(lon.shape)
-            print(lon)
-            print("纵向的纬度：")
-            print(lat.shape)
-            print(lat)
-            if height == 0:
-                u = ncfile.variables['U10'][time]
-                v = ncfile.variables['V10'][time]
-            else:
-                u = to_np(getvar(ncfile, 'ua', timeidx=time))[height]
-                v = to_np(getvar(ncfile, 'va', timeidx=time))[height]
-            lats_list, lons_list, u_list, v_list=[],[],[],[]
-            for i in lats:
-                for j in i:
-                    lats_list.append(j)
-            for i in lons:
-                for j in i:
-                    lons_list.append(j)
-            for i in u:
-                for j in i:
-                    u_list.append(j)
-            for i in v:
-                for j in i:
-                    v_list.append(j)
-            xi,yi=np.mgrid[lon[0]:lon[-1]:complex(str(lon.shape[0])+'j'),lat[0]:lat[-1]:complex(str(lat.shape[0])+'j')]
-            print("网格化的坐标，经度与纬度：")
-            print(np.mgrid[lon[0]:lon[-1]:complex(str(lon.shape[0])+'j')])
-            print(np.mgrid[lat[0]:lat[-1]:complex(str(lat.shape[0])+'j')])
-            x_y=list(zip(lons_list,lats_list))
-            grid_u=griddata(x_y,u_list,(xi,yi),method='cubic')
-            grid_v=griddata(x_y,v_list,(xi,yi),method='cubic')
-            print(grid_u.shape,grid_v.shape)
-            #print(lons.shape,lats.shape,u.shape,v.shape)
-            self.axe.streamplot(lon, lat, grid_u.T, grid_v.T, density=density,
+            hor_ws=self.griddata(ncfile,3,time,lat_or_lon)
+            w=self.griddata(ncfile,2,time,lat_or_lon)
+            pressure = self.griddata(ncfile, 4, time, lat_or_lon)
+            hor_ws, w = hor_ws[::interval, ::interval], w[::interval, ::interval]
+            #由于self.xi只有一维的信息，而其他都是二维的，所以xi也要变成二维的
+            x_list = []
+            for i in range(len(pressure)):
+                x_list.append(self.xi.tolist())
+            self.axe.streamplot(x_list, pressure, hor_ws, w, density=density,
                                 color=stream_color, linewidth=stream_width, arrowsize=arrow_headwidth,
                                 arrowstyle=arrow_type,
                                 transform=ccrs.PlateCarree())
         except (ValueError,RuntimeError,AttributeError):
             QtWidgets.QMessageBox.critical(None, "错误", "某些参数设置错误或未设置")
-    '''未做网格化处理
-    def draw_streamplot(self, ncfile, density, height, time, arrow_headwidth, stream_color, stream_width, arrow_type):
-        try:
-            lats = to_np(getvar(ncfile, "XLAT"))
-            lons = to_np(getvar(ncfile, "XLONG"))
-            if height == 0:
-                u = ncfile.variables['U10'][time]
-                v = ncfile.variables['V10'][time]
-            else:
-                u = to_np(getvar(ncfile, 'ua', timeidx=time))[height]
-                v = to_np(getvar(ncfile, 'va', timeidx=time))[height]
-            #print(lons.shape,lats.shape,u.shape,v.shape)
-            self.axe.streamplot(lons, lats, u, v, density=density,
-                                color=stream_color, linewidth=stream_width, arrowsize=arrow_headwidth,
-                                arrowstyle=arrow_type,
-                                transform=ccrs.PlateCarree())
-        except (ValueError,RuntimeError,AttributeError):
-            QtWidgets.QMessageBox.critical(None, "错误", "某些参数设置错误或未设置")
-        '''
+    '''
+    #没有解决异常的测试版本
+    def draw_streamplot(self, ncfile, density, time, arrow_headwidth, stream_color, stream_width, arrow_type,lat_or_lon):
+        hor_ws = self.griddata(ncfile, 3, time, lat_or_lon)
+        w = self.griddata(ncfile, 2, time, lat_or_lon)
+        pressure = self.griddata(ncfile, 4, time, lat_or_lon)
+        hor_ws,w,pressure=np.array(hor_ws),np.array(w),np.array(pressure)
+        bool,startlayer,endlayer=self.judge4streamplt(pressure)
+        if bool==True:
+            grid_pressure=pressure[:,0][startlayer:endlayer+1]
+            grid_horws=hor_ws[startlayer:endlayer+1,:]
+            grid_w=w[startlayer:endlayer+1,:]
+            print("将使用原数据绘制流线")
+            print(grid_pressure.shape,grid_horws.shape,grid_w.shape)
+        if bool==False:
+            grid_horws,grid_w,grid_pressure=self.griddata4streamplot(hor_ws,w,pressure,startlayer,endlayer)
+            print("将使用网格化数据绘制流线")
+            print(grid_pressure.shape)
+        ####这里必须要做个说明！！！由于streamplot函数并不接受非线性的网格，他只接受方方正正的网格数据，因此这里必须要做一些简化操作，
+        ####比如压力认为第一列就等效于全部。
+        self.axe.streamplot(np.array(self.xi), grid_pressure, grid_horws, grid_w, density=density,
+                            color=stream_color, linewidth=stream_width, arrowsize=arrow_headwidth,
+                            arrowstyle=arrow_type)
+        print('流线绘制完毕')
+
+    def judge4streamplt(self,pressure):
+        start_layer,end_layer=None,None
+        for i in range(pressure.shape[0]):
+            if pressure[:,0][i]<self.end_p:#end_p设置的是大的气压，具体原因是坐标轴的设置于相反的问题
+                start_layer=i-1
+                break
+        for i in range(pressure.shape[0]):
+            if pressure[:,0][i]<self.start_p:#start_p设置的是小i的气压，具体原因是坐标轴的设置于相反的问题
+                end_layer=i
+                break
+        print('原压力为：')
+        print(pressure[:,0])
+        print(start_layer,end_layer)
+        bool=np.allclose(np.diff(pressure[:,0][start_layer:end_layer+1]),
+                         (pressure[:,0][start_layer:end_layer+1][-1]-pressure[:,0][start_layer:end_layer+1][0])/(end_layer-start_layer+1))
+        print('展示两数之差：')
+        print(np.diff(pressure[:,0][start_layer:end_layer+1]))
+        print((pressure[:,0][start_layer:end_layer+1][-1]-pressure[:,0][start_layer:end_layer+1][0])/(end_layer-start_layer+1))
+        return bool,start_layer,end_layer
 
     # 绘制图例的函数
-    def draw_colorbar(self, default, colorbar_name,
-                      hor_position=None, ver_position=None, hor_length=None, ver_length=None, orientation=None):
+    '''解决了异常的版本
+    def draw_colorbar(self, default, colorbar_name,hor_position=None, ver_position=None, hor_length=None, ver_length=None, orientation=None):
         try:
             if default == 0:
                 cb = self.fig.colorbar(self.contourf, spacing='proportional')  # orientation='horizontal'
@@ -1812,6 +1493,95 @@ class Figure_Canvas(FigureCanvas):
                 cb.set_label(colorbar_name)
         except (ValueError,RuntimeError,AttributeError):
             QtWidgets.QMessageBox.critical(None, "错误", "某些参数设置错误或未设置")
+    '''
+    #没有解决异常的测试版本
+    def draw_colorbar(self, default, colorbar_name,hor_position=None, ver_position=None, hor_length=None, ver_length=None, orientation=None):
+        if default == 0:
+            cb = self.fig.colorbar(self.contourf, spacing='proportional')  # orientation='horizontal'
+            cb.set_label(colorbar_name)
+        if default == 1:
+            rect = [hor_position, ver_position, hor_length, ver_length]  # 分别代表，水平位置，垂直位置，水平宽度，垂直宽度
+            cbar_ax = self.fig.add_axes(rect)
+            cb = self.fig.colorbar(self.contourf, cax=cbar_ax, orientation=orientation,
+                                   spacing='proportional')  # orientation='horizontal'
+            cb.set_label(colorbar_name)
+
+    #将数据插值到网格
+    def griddata(self,ncfile,type,time,lat_or_lon):
+        #指定参数类型
+        if type == 0:
+            factor = to_np(getvar(ncfile, 'tc', timeidx=time))
+        if type == 1:
+            factor = to_np(getvar(ncfile, 'rh', timeidx=time))
+        if type == 2:
+            factor = to_np(getvar(ncfile, 'wa', timeidx=time))
+        if type == 3:
+            if lat_or_lon==0:#0表示沿着纬度线进行剖切
+                factor = to_np(getvar(ncfile, 'ua', timeidx=time))
+                print("这是ua")
+            if lat_or_lon==1:#1表示沿着经度线进行剖切
+                factor = to_np(getvar(ncfile, 'va', timeidx=time))
+                print('这是va')
+        if type == 4:
+            factor = to_np(getvar(ncfile, 'pressure',timeidx=time))
+        lon = to_np(getvar(ncfile, 'lon'))
+        lat = to_np(getvar(ncfile, 'lat'))
+        x_list, y_list, factor_list_x, factor_list = [], [], [], []
+        if lat_or_lon==0:#0表示沿着纬度线进行剖切
+            for i in lon:
+                for j in i:
+                    x_list.append(j)
+            for i in lat:
+                for j in i:
+                    y_list.append(j)
+        if lat_or_lon==1:#1表示沿着经度线进行剖切
+            for i in lat:
+                for j in i:
+                    x_list.append(j)
+            for i in lon:
+                for j in i:
+                    y_list.append(j)
+        x_y = list(zip(x_list, y_list))
+        for i in range(factor.shape[0]):
+            for j in factor[i]:
+                for k in j:
+                    factor_list_x.append(k)
+            factor_new = griddata(x_y, factor_list_x, (self.xi, self.yi), method='cubic')  # 进行插值
+            factor_list.append(factor_new)
+            factor_list_x=[]
+        return factor_list
+
+    #这个griddata是专用于streamplot的
+    def griddata4streamplot(self,hor_ws,w,pressure,startlayer,endlayer):
+        x_list=[]
+        for i in range(pressure.shape[0]):
+            for j in self.xi:
+                x_list.append(j)
+        pressure_list=[]
+        for i in pressure:
+            for j in i:
+                pressure_list.append(j)
+        #print(len(x_list))
+        #print(len(pressure_list))
+        x_y=list(zip(x_list,pressure_list))
+        hor_ws_list,w_list=[],[]
+        for i in hor_ws:
+            for j in i:
+                hor_ws_list.append(j)
+        for i in w:
+            for j in i:
+                w_list.append(j)
+        xi,yi=np.mgrid[self.start_x:self.end_x:complex(str(self.x_grid) + 'j'),
+              pressure[:,0][startlayer]:pressure[:,0][endlayer]:complex(str(endlayer-startlayer+1)+'j')]
+        grid_horws=griddata(x_y,hor_ws_list,(xi, yi), method='cubic')
+        print('网格化的horws形状为：'+str(grid_horws.T.shape))
+        grid_w = griddata(x_y, w_list, (xi, yi), method='cubic')
+        print('网格化的w形状为：'+str(grid_w.T.shape))
+        grid_pressure=np.mgrid[pressure[:,0][startlayer]:pressure[:,0][endlayer]:complex(str(endlayer-startlayer+1)+'j')]
+        print('网格化的pressure：')
+        print(grid_pressure)
+        return grid_horws.T,grid_w.T,grid_pressure
+
 
     #修改子图间距
     def adjust_subplot(self,wspace,hspace):

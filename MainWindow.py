@@ -10,7 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
-import OtherParameter_interpolate,Windspeed_interpolate,Windspeed_interpolate_time,Draw_plan_graph,Get_data
+import OtherParameter_interpolate,Windspeed_interpolate,Windspeed_interpolate_time,Draw_plan_graph,Get_data,Draw_vertical_graph
 
 
 class Ui_MainWindow(object):
@@ -39,6 +39,9 @@ class Ui_MainWindow(object):
         self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_5.setObjectName("pushButton_5")
         self.gridLayout.addWidget(self.pushButton_5, 1, 0, 1, 1)
+        self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.gridLayout.addWidget(self.pushButton_6, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -52,6 +55,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("MainWindow", "风速插值（时间）"))
         self.pushButton_4.setText(_translate("MainWindow", "绘制平面图"))
         self.pushButton_5.setText(_translate("MainWindow", "提取参数"))
+        self.pushButton_6.setText(_translate("MainWindow", "绘制立面图"))
 
         '''以下是自己编辑的内容'''
         self.pushButton.clicked.connect(self.show_dialog_1)
@@ -59,6 +63,7 @@ class Ui_MainWindow(object):
         self.pushButton_3.clicked.connect(self.show_dialog_3)
         self.pushButton_4.clicked.connect(self.show_dialog_4)
         self.pushButton_5.clicked.connect(self.show_dialog_5)
+        self.pushButton_6.clicked.connect(self.show_dialog_6)
 
     def show_dialog_1(self):
         MainWindow = QtWidgets.QDialog()
@@ -87,6 +92,12 @@ class Ui_MainWindow(object):
     def show_dialog_5(self):
         MainWindow = QtWidgets.QDialog()
         ui = Get_data.Ui_Dialog()
+        ui.setupUi(MainWindow)
+        MainWindow.exec_()
+
+    def show_dialog_6(self):
+        MainWindow = QtWidgets.QDialog()
+        ui = Draw_vertical_graph.Ui_Dialog()
         ui.setupUi(MainWindow)
         MainWindow.exec_()
 
