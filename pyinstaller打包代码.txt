@@ -1,1 +1,1 @@
-pyinstaller -w MainWindow.py -p OtherParameter_interpolate.py -p Windspeed_interpolate.py -p Windspeed_interpolate_time.py -p Draw_plan_graph.py -p Get_data.py
+pyinstaller -w MainWindow.py -p OtherParameter_interpolate.py -p Windspeed_interpolate.py -p Windspeed_interpolate_time.py -p Draw_plan_graph.py -p Get_data.py -p Draw_vertical_graph.py

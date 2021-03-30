@@ -1621,7 +1621,6 @@ class Figure_Canvas(FigureCanvas):
             print(type(self.axe))
             # 正常做法是调用figure下面的add_subplot方法，类似于matplotlib.pyplot下面的subplot方法。但是pyplot能够使用的功能更多
             self.axe.set_title(title,fontsize=title_size)  # 设置图题
-            proj = ccrs.PlateCarree()
             self.axe.add_feature(cfeat.COASTLINE.with_scale(coastline_precision), linewidth=coastline_width,
                                  zorder=1)  # 添加海岸线
             self.axe.set_extent([start_lon, end_lon, start_lat, end_lat], crs=proj)  # 设置图的范围
